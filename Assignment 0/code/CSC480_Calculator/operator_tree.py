@@ -24,13 +24,29 @@ class OperatorTree:
         raise NotImplementedError()
 
     @staticmethod
+    def build(json_data):
+        is_leaf = bool(json_data["type"] == "number")
+        if is_leaf:
+            return Operand.BuildFromJSON(json_data["value"])
+        else:
+            # recursive call to create children
+            left_node = OperatorTree.build(json_data["operands"][0])
+            right_node = OperatorTree.build(json_data["operands"][1])
+            children = [left_node, right_node]
+            # create operator node
+            operation_node = Operator.BuildFromJSON(json_data["value"], children)
+            return operation_node
+
+    # DONE: This function should create the tree using the provided JSON data
+    #       this might need to check the type of the root node because
+    #       root could be either an Operator or an Operand
+    #
+    # DONE: after creating the tree, it should return an instance of this
+    #       class (OperatorTree), with the root value properly set up as the
+    #       root node of the tree.
+    @staticmethod
     def BuildFromJSON(json_data):
-        # TODO: This function should create the tree using the provided JSON data
-        #       this might need to check the type of the root node because
-        #       root could be either an Operator or an Operand
-        #
-        # TODO: after creating the tree, it should return an instance of this
-        #       class (OperatorTree), with the root value properly set up as the
-        #       root node of the tree.
-        raise NotImplementedError()
+        root = OperatorTree.build(json_data["operator_tree"])
+        return OperatorTree(root)
+
 

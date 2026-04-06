@@ -33,7 +33,7 @@ class Operator(OperatorTreeElement):
         raise NotImplementedError()
 
     @staticmethod
-    def BuildFromJSON(json_data):
+    def BuildFromJSON(value, children):
         # Overrides the BuildFromJSON function from parent class.
         # TODO: Use  JSON data is used to create and return a valid Operator object
         #       which in turn requires recursively creating its children.
@@ -41,5 +41,6 @@ class Operator(OperatorTreeElement):
         #  This function assumes that json_data contains the info for an Operator Node
         #     and all of its children, and children of its children, etc.
 
-        raise NotImplementedError()
+
+        return Operator(value, children)
 

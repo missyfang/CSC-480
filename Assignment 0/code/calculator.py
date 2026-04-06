@@ -56,11 +56,13 @@ def main():
         data = json.load(file)
 
     # Step 2
-    # TODO: Load the expression from file using the OperatorTree.BuildFromJSON function
-    # TODO: You must implement the functions
+    # DONE: Load the expression from file using the OperatorTree.BuildFromJSON function
+    # DONE: You must implement the functions
     #       - OperatorTree.BuildFromJSON
     #       - Operand.BuildFromJSON
     #       - Operator.BuildFromJSON
+    tree = OperatorTree.BuildFromJSON(data)
+    print(tree)
 
     # Step 3
     # TODO: Evaluate the expression (using the evaluate function of the OperatorTree class)

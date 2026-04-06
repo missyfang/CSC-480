@@ -7,6 +7,7 @@
 #  TODO: Modified When: ???
 # =========================================
 
+# I.E NUMBER
 
 from .operator_tree_element import OperatorTreeElement
 
@@ -27,8 +28,10 @@ class Operand(OperatorTreeElement):
 
     @staticmethod
     def BuildFromJSON(json_data):
+
         # Overrides the BuildFromJSON function from parent class.
         # TODO: Use JSON data to create a valid Operand Object
         #       this function assumes that json_data only contains the info for an Operand Node
-        raise NotImplementedError()
+        print(json_data)
+        return Operand(json_data)
 
