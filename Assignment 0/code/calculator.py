@@ -62,14 +62,15 @@ def main():
     #       - Operand.BuildFromJSON
     #       - Operator.BuildFromJSON
     tree = OperatorTree.BuildFromJSON(data)
-    print(tree)
 
     # Step 3
-    # TODO: Evaluate the expression (using the evaluate function of the OperatorTree class)
-
+    # DONE: Evaluate the expression (using the evaluate function of the OperatorTree class)
+    value = OperatorTree.evaluate(tree)
+    print(value)
     # Step 4
-    # TODO: Generate a list of the elements on the Operator Tree in post-order and print it!
-
+    # DONE: Generate a list of the elements on the Operator Tree in post-order and print it!
+    post_order_list = OperatorTree.post_order_list(tree)
+    print(post_order_list)
     # Step 5
     # TODO: Evaluate the expression (again) but using the post fix notation and a stack
     #       This must be done by calling stack_based_evaluation

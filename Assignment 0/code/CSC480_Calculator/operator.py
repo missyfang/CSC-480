@@ -1,3 +1,4 @@
+from unittest import case
 
 # =========================================
 #  Created by: Kenny Davila Castellanos
@@ -19,23 +20,43 @@ class Operator(OperatorTreeElement):
 
     def evaluate(self):
         # Overrides the evaluate function from parent class.
-        # TODO: apply the local operator and return the value
+        # DONE: apply the local operator and return the value
         #       - self._value == "+" ?
         #       - self._value == "*" ?
         #       - self._value == "-" ?
         #       - self._value == "/" ?
+        left_child = self.__children[0].evaluate()
+        right_child = self.__children[1].evaluate()
+        match self._value:
+            case "+":
+                return left_child + right_child
+            case "-":
+                return left_child - right_child
+            case "*":
+                return left_child * right_child
+            case "/":
+                return left_child / right_child
+
+
+
+
         raise NotImplementedError()
 
     def post_order_list(self, out_list):
         # Overrides the post_order_list function from parent class.
-        # TODO: Should add itself and its children ... all in post-order
+        # DONE: Should add itself and its children ... all in post-order
         # hint: recursion is needed
-        raise NotImplementedError()
+        #left child
+        self.__children[0].post_order_list(out_list)
+        #right child
+        self.__children[1].post_order_list(out_list)
+        out_list.append(self._value)
+        return out_list
 
     @staticmethod
     def BuildFromJSON(value, children):
         # Overrides the BuildFromJSON function from parent class.
-        # TODO: Use  JSON data is used to create and return a valid Operator object
+        # DONE: Use  JSON data is used to create and return a valid Operator object
         #       which in turn requires recursively creating its children.
         #
         #  This function assumes that json_data contains the info for an Operator Node

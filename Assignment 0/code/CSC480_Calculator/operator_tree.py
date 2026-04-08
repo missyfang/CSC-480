@@ -15,13 +15,15 @@ class OperatorTree:
         self.__root = root
 
     def evaluate(self):
-        # TODO: evaluate the expression .. starting from the root
-        raise NotImplementedError()
+        # DONE: evaluate the expression .. starting from the roo
+        return self.__root.evaluate()
 
     def post_order_list(self):
-        # TODO: create a post-order traversal .. starting from the root
+        # DONE: create a post-order traversal .. starting from the root
         # HINT: you will need a list to put the results.
-        raise NotImplementedError()
+        result = []
+        self.__root.post_order_list(result)
+        return result
 
     @staticmethod
     def build(json_data):
