@@ -4,8 +4,8 @@ from unittest import case
 #  Created by: Kenny Davila Castellanos
 #      For: CSC 480 - AI 1
 #
-#  TODO: Modified by: ???
-#  TODO: Modified When: ???
+#  DONE: Modified by: Mellissa Fang
+#  DONE: Modified When: 04/08/26
 # =========================================
 
 
@@ -50,7 +50,7 @@ class Operator(OperatorTreeElement):
         self.__children[0].post_order_list(out_list)
         #right child
         self.__children[1].post_order_list(out_list)
-        out_list.append(self._value)
+        out_list.append(self)
         return out_list
 
     @staticmethod

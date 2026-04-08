@@ -4,7 +4,7 @@
 #      For: CSC 480 - AI 1
 #
 #  TODO: Modified by: Mellissa Fang
-#  TODO: Modified When: 04/04/26
+#  TODO: Modified When: 04/08/26
 # =========================================
 
 
@@ -15,7 +15,7 @@ from CSC480_Calculator import OperatorTree, Operator, Operand
 
 
 def stack_based_evaluation(post_order):
-    # TODO: this is a simple evaluation algorithm, using a stack
+    # DONE: this is a simple evaluation algorithm, using a stack
     #       it sequentially reads the mathematical expression in post-fix notation
     #        - every time it finds an operand (A)
     #             it will simply put (A) on the stack
@@ -34,8 +34,34 @@ def stack_based_evaluation(post_order):
     # HINT: use isinstance function to check the types of the elements on
     #       the post_order list
 
-    # TODO: your logic here
-    return 0.0
+    # DONE: your logic here
+
+    # push first element on stack
+    stack = [post_order[0]]
+    current_index = 1
+    while current_index < len(post_order):
+        # operator : pop two from stack and apply operator, push result to stack
+        current_element = post_order[current_index]
+        if isinstance(current_element, Operator):
+            right = stack.pop()
+            left = stack.pop()
+            match current_element.get_value():
+                case "+":
+                    value = left.evaluate() + right.evaluate()
+                case "-":
+                    value = left.evaluate() - right.evaluate()
+                case "*":
+                    value = left.evaluate() * right.evaluate()
+                case "/":
+                    value = left.evaluate() / right.evaluate()
+            stack.append(Operand(value))
+        # number add to stack
+        else:
+            stack.append(current_element)
+        #grab next element from post order list
+        current_index = current_index + 1
+
+    return stack[0]
 
 
 def main():
@@ -66,14 +92,18 @@ def main():
     # Step 3
     # DONE: Evaluate the expression (using the evaluate function of the OperatorTree class)
     value = OperatorTree.evaluate(tree)
-    print(value)
+    print("reg eval: " + str(value))
+
     # Step 4
     # DONE: Generate a list of the elements on the Operator Tree in post-order and print it!
     post_order_list = OperatorTree.post_order_list(tree)
-    print(post_order_list)
+    print("post order list: " + str(post_order_list))
+
     # Step 5
-    # TODO: Evaluate the expression (again) but using the post fix notation and a stack
+    # DONE: Evaluate the expression (again) but using the post fix notation and a stack
     #       This must be done by calling stack_based_evaluation
+    stack_value = stack_based_evaluation(post_order_list)
+    print("stack eval: " + str(stack_value))
 
 
 
