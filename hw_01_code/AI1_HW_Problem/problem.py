@@ -47,8 +47,18 @@ class Problem:
               and the search nodes. 
     """
     def get_initial_state(self) -> State | None:
-        # TODO: YOUR CODE HERE
-        return None
+        # DONE
+        # create all false visited list for every target
+        visited_nodes = []
+        for location in self.__current_case.get_targets():
+            visited_nodes.append(False)
+
+        # get start location of case
+        start = self.get_current_case().get_start_location()
+
+        # create state
+        state = State(start, visited_nodes)
+        return state
 
     """
         Check if the given state object represent a goal state. This can be
@@ -60,8 +70,21 @@ class Problem:
             have been visited.
     """
     def is_goal_state(self, state: State) -> bool:
-        # TODO: YOUR CODE HERE
-        return False
+        # DONE
+        # check if back at start
+        back_at_start = state.get_location() == self.get_current_case().get_start_location()
+
+        # Sainty check all nodes were in list to be visited
+        all_targets_in_list = len(self.__current_case.get_targets()) == len(state.get_visited_targets())
+
+        # check all nodes were visited
+        all_targets_visited = True
+        for node in state.get_visited_targets():
+            if not node:
+                all_targets_visited = False
+                break
+
+        return back_at_start and all_targets_visited and all_targets_in_list
 
     """
         Given a state, this function generates a List of the Children states.
@@ -80,8 +103,26 @@ class Problem:
             object and visited targets in the State object.  
     """
     def generate_children(self, state: State) -> List[State]:
-        # TODO: YOUR CODE HERE
-        return []
+        # MAYBE DONE TODO: YOUR CODE HERE
+        current_loc = state.get_location()
+        current_loc_neighbors = self.get_city_map().get_neighbors(current_loc)
+        case_targets = self.get_current_case().get_targets()
+
+        '''
+        loop thru targets and find those which over lap with neighbors. 
+        for each that over lap create a new state 
+        '''
+        children = []
+        for target in case_targets:
+            if target in current_loc_neighbors:
+                new_visited_list = state.get_visited_targets().copy()
+                # index of target
+                index_of_target = self.__current_case.get_targets().index(target)
+                # mark as visited
+                new_visited_list[index_of_target] = True
+                child_state = State(target,  new_visited_list)
+                children.append(child_state)
+        return children
 
     """
         Cost-Model: cost of executing the given action on the given state
