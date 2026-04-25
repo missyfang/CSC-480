@@ -109,19 +109,19 @@ class Problem:
         case_targets = self.get_current_case().get_targets()
 
         '''
-        loop thru targets and find those which over lap with neighbors. 
-        for each that over lap create a new state 
+        loop thru neighbors and create child state, if it is in targets mark as visited 
         '''
         children = []
         for target in case_targets:
+            new_visited_list = state.get_visited_targets().copy()
             if target in current_loc_neighbors:
-                new_visited_list = state.get_visited_targets().copy()
                 # index of target
                 index_of_target = self.__current_case.get_targets().index(target)
                 # mark as visited
                 new_visited_list[index_of_target] = True
-                child_state = State(target,  new_visited_list)
-                children.append(child_state)
+            # Create child state
+            child_state = State(target,  new_visited_list)
+            children.append(child_state)
         return children
 
     """
@@ -135,9 +135,12 @@ class Problem:
              used to estimate the cost of traveling between non-neighboring 
              locations    
     """
+    # action is destination location
     def get_action_cost(self, state: State, action: str) -> float:
         # TODO: YOUR CODE HERE
-        return 0.0
+        map = self.get_city_map()
+        current_loc = state.get_location()
+        return map.get_cost(current_loc, action)
 
     """
         Cost-Estimation-Model: estimated cost of reaching a goal state from the
