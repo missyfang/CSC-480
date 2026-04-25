@@ -145,8 +145,8 @@ class SearchAlgorithms:
                 heuristic_cost = problem.estimate_cost_to_solution(child) + path_cost
                 # cost check to readd children to be explored again
                 # if cost is less re add
-                if child_rep not in reached_nodes or child_node.get_path_cost() < reached_nodes[child_rep]:
-                    reached_nodes[child_rep] = child_node.get_path_cost()
+                if child_rep not in reached_nodes or heuristic_cost < reached_nodes[child_rep]:
+                    reached_nodes[child_rep] = heuristic_cost
                     queue.put((heuristic_cost, child_node))
 
         return SearchResults(solution_node.path_to_root(), solution_node.get_path_cost(), len(reached_nodes),
