@@ -12,6 +12,7 @@ import time
 import heapq
 from collections import deque
 from xml.sax.handler import property_dom_node
+from queue import PriorityQueue
 
 from . import search_tree_node
 from .search_result import SearchResults
@@ -54,7 +55,8 @@ class SearchAlgorithms:
           children = problem.generate_children(current_node.get_state())
           for child in children:
               child_loc = child.get_location()
-              child_node = SearchTreeNode(current_node, child.get_location(), child, 0)
+              cost = problem.get_action_cost(current_node.get_state(), child_loc) + current_node.get_path_cost()
+              child_node = SearchTreeNode(current_node, child.get_location(), child, cost)
               child_rep =child.get_representation()
               # if child already added to queue it will be explored don't re-add
               if child_rep not in reached_nodes:
@@ -75,16 +77,16 @@ class SearchAlgorithms:
         # TODO
         nodes_reached = 0
         nodes_explored = 0
-
-        queue = deque()
+        # min priority queue where priority = path cost
+        queue = PriorityQueue()
         start = SearchTreeNode(None, None, problem.get_initial_state(), 0)
         # not adding start to reached bc we need to return
         reached_nodes = dict()
         reached_nodes[start.get_state().get_representation()] = 0
-        queue.append(start)
+        queue.put((0, start))
         solution_node = start
-        while queue:
-            current_node = queue.popleft()
+        while not queue.empty():
+            _, current_node  = queue.get()
             # print(
             #    f"exploring --> {current_node.get_state().get_location()} | visited: {current_node.get_state().get_visited_targets()}")
             if problem.is_goal_state(current_node.get_state()):
@@ -97,14 +99,15 @@ class SearchAlgorithms:
                 child_loc = child.get_location()
                 #cost moving parent ot child
                 cost = problem.get_action_cost(current_node.get_state(), child_loc)
-                child_node = SearchTreeNode(current_node, child.get_location(), child, cost)
+                path_cost = current_node.get_path_cost() + cost
+                child_node = SearchTreeNode(current_node, child.get_location(), child, path_cost)
                 child_rep = child.get_representation()
                 # cost check to readd children to be explored again
                 # if cost is less re add
-                if child_rep not in reached_nodes or cost < reached_nodes[child_rep]:
+                if child_rep not in reached_nodes or child_node.get_path_cost() < reached_nodes[child_rep]:
                     nodes_reached += 1
-                    reached_nodes[child_rep] = cost
-                    queue.append(child_node)
+                    reached_nodes[child_rep] = child_node.get_path_cost()
+                    queue.put((path_cost, child_node))
 
         return SearchResults(solution_node.path_to_root(), solution_node.get_path_cost(), nodes_reached, nodes_explored)
 
