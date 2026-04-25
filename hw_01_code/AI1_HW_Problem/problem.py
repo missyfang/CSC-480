@@ -112,15 +112,16 @@ class Problem:
         loop thru neighbors and create child state, if it is in targets mark as visited 
         '''
         children = []
-        for target in case_targets:
+        for loc in current_loc_neighbors:
             new_visited_list = state.get_visited_targets().copy()
-            if target in current_loc_neighbors:
+            # is new loc a target
+            if loc in case_targets:
                 # index of target
-                index_of_target = self.__current_case.get_targets().index(target)
+                index_of_target = case_targets.index(loc)
                 # mark as visited
                 new_visited_list[index_of_target] = True
             # Create child state
-            child_state = State(target,  new_visited_list)
+            child_state = State(loc,  new_visited_list)
             children.append(child_state)
         return children
 
