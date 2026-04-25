@@ -14,6 +14,7 @@ from collections import deque
 from xml.sax.handler import property_dom_node
 from queue import PriorityQueue
 
+from AI1_HW_Problem import State
 from . import search_tree_node
 from .search_result import SearchResults
 from .search_tree_node import SearchTreeNode
@@ -34,24 +35,22 @@ class SearchAlgorithms:
     """
     @staticmethod
     def breadth_first_search(problem: Problem) -> SearchResults:
-        nodes_reached = 0
-        nodes_explored = 0
-
         queue = deque()
         start = SearchTreeNode(None, None, problem.get_initial_state(), 0)
         # not adding start to reached bc we need to return
         reached_nodes = set()
+        explored_nodes = set()
         reached_nodes.add(start.get_state().get_representation())
         queue.append(start)
         solution_node = start
         while queue:
           current_node = queue.popleft()
+          explored_nodes.add(current_node.get_state().get_representation())
          # print(f"exploring --> {current_node.get_state().get_location()} | visited: {current_node.get_state().get_visited_targets()}")
           if problem.is_goal_state(current_node.get_state()):
               solution_node = current_node
               break
           # expand state
-          nodes_explored += 1
           children = problem.generate_children(current_node.get_state())
           for child in children:
               child_loc = child.get_location()
@@ -60,11 +59,10 @@ class SearchAlgorithms:
               child_rep =child.get_representation()
               # if child already added to queue it will be explored don't re-add
               if child_rep not in reached_nodes:
-                  nodes_reached += 1
                   reached_nodes.add(child_rep)
                   queue.append(child_node)
 
-        return SearchResults(solution_node.path_to_root(), solution_node.get_path_cost(), nodes_reached, nodes_explored)
+        return SearchResults(solution_node.path_to_root(), solution_node.get_path_cost(), len(reached_nodes), len(explored_nodes))
 
     """
         Implementation of the Uniform Cost Search (UCS) algorithm. The only input
@@ -74,26 +72,25 @@ class SearchAlgorithms:
     """
     @staticmethod
     def uniform_cost_search(problem: Problem) -> SearchResults:
-        # TODO
-        nodes_reached = 0
-        nodes_explored = 0
+        #TODO i think the explore node count is coming out wrong
         # min priority queue where priority = path cost
         queue = PriorityQueue()
         start = SearchTreeNode(None, None, problem.get_initial_state(), 0)
         # not adding start to reached bc we need to return
         reached_nodes = dict()
         reached_nodes[start.get_state().get_representation()] = 0
+        explored_nodes = set()
         queue.put((0, start))
         solution_node = start
         while not queue.empty():
             _, current_node  = queue.get()
+            explored_nodes.add(current_node.get_state().get_representation())
             # print(
             #    f"exploring --> {current_node.get_state().get_location()} | visited: {current_node.get_state().get_visited_targets()}")
             if problem.is_goal_state(current_node.get_state()):
                 solution_node = current_node
                 break
             # expand state
-            nodes_explored += 1
             children = problem.generate_children(current_node.get_state())
             for child in children:
                 child_loc = child.get_location()
@@ -105,12 +102,11 @@ class SearchAlgorithms:
                 # cost check to readd children to be explored again
                 # if cost is less re add
                 if child_rep not in reached_nodes or child_node.get_path_cost() < reached_nodes[child_rep]:
-                    nodes_reached += 1
                     reached_nodes[child_rep] = child_node.get_path_cost()
                     queue.put((path_cost, child_node))
 
-        return SearchResults(solution_node.path_to_root(), solution_node.get_path_cost(), nodes_reached, nodes_explored)
-
+        return SearchResults(solution_node.path_to_root(), solution_node.get_path_cost(), len(reached_nodes),
+                             len(explored_nodes))
 
     """
         Implementation of the A* Search algorithm. The only input
@@ -120,10 +116,48 @@ class SearchAlgorithms:
     """
     @staticmethod
     def A_start_search(problem: Problem) -> SearchResults:
-        # TODO: Your CODE HERE
-        # use a prioroty queue to order nodes/
-        return SearchResults(None, None, 0, 0)
+        queue = PriorityQueue()
+        start = SearchTreeNode(None, None, problem.get_initial_state(), 0)
+        # not adding start to reached bc we need to return
+        reached_nodes = dict()
+        reached_nodes[start.get_state().get_representation()] = 0
+        explored_nodes = set()
+        queue.put((0, start))
+        solution_node = start
+        while not queue.empty():
+            _, current_node = queue.get()
+            explored_nodes.add(current_node.get_state().get_representation())
+            # print(
+            #    f"exploring --> {current_node.get_state().get_location()} | visited: {current_node.get_state().get_visited_targets()}")
+            if problem.is_goal_state(current_node.get_state()):
+                solution_node = current_node
+                break
+            # expand state
+            children = problem.generate_children(current_node.get_state())
+            for child in children:
+                child_loc = child.get_location()
+                # cost moving parent ot child
+                cost = problem.get_action_cost(current_node.get_state(), child_loc)
+                path_cost = current_node.get_path_cost() + cost
+                child_node = SearchTreeNode(current_node, child.get_location(), child, path_cost)
+                child_rep = child.get_representation()
 
+                heuristic_cost = problem.estimate_cost_to_solution(child) + path_cost
+                # cost check to readd children to be explored again
+                # if cost is less re add
+                if child_rep not in reached_nodes or child_node.get_path_cost() < reached_nodes[child_rep]:
+                    reached_nodes[child_rep] = child_node.get_path_cost()
+                    queue.put((heuristic_cost, child_node))
+
+        return SearchResults(solution_node.path_to_root(), solution_node.get_path_cost(), len(reached_nodes),
+                             len(explored_nodes))
+
+
+
+
+
+
+    # if 1 or more delviery left
     """
         Auxiliary function for printing search results 
     """

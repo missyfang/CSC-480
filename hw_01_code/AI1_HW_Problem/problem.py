@@ -157,5 +157,42 @@ class Problem:
     
     """
     def estimate_cost_to_solution(self, state: State) -> float:
-        # TODO: YOUR CODE HERE
-        return 0.0
+        map = self.__city_map
+        start_loc = self.__current_case.get_start_location()
+        final_loc = start_loc
+        current_loc = state.get_location()
+        targets = self.__current_case.get_targets()
+
+        # no more deliveries left
+        if all(state.get_visited_targets()):
+            return map.get_straight_line_distance(current_loc, start_loc)
+
+
+        # determine closest and farthest nodes
+        closest = ""
+        farthest =""
+        min_distance = 100000000
+        max_distance = 0
+
+        unvisited_targets = []
+        for target in targets:
+            index = targets.index(target)
+            if not state.get_visited_targets()[index]:
+                unvisited_targets.append(target)
+        for target in unvisited_targets:
+            distance_to_start = self.__city_map.get_straight_line_distance(start_loc, target)
+            if distance_to_start < min_distance:
+                min_distance = distance_to_start
+                closest = target
+            if distance_to_start > max_distance:
+                max_distance = distance_to_start
+                farthest = target
+
+        c_middle = 0
+        if closest != farthest:
+            c_middle = map.get_straight_line_distance(closest, farthest)
+        c_beginning = min(map.get_straight_line_distance(current_loc, closest), map.get_straight_line_distance(current_loc, farthest))
+        c_final = map.get_straight_line_distance(closest, final_loc)
+
+        total = c_middle + c_beginning + c_final
+        return total

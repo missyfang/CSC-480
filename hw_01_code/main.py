@@ -10,6 +10,7 @@
 
 import sys
 
+from AI1_HW_Problem.state import State
 from AI1_HW_Problem.map import CityMap
 from AI1_HW_Problem.search_request import SearchRequest
 from AI1_HW_Problem.problem import Problem
@@ -46,27 +47,46 @@ def main():
 
     # TODO: Check the code for this function to understand how the map class works
     #       Afterwards, modify  or remove this line of code
-    example_using_map_class(map)
+   # example_using_map_class(map)
+
+    testcase_num = 2
+    problem = Problem(map, test_cases[testcase_num])
+    print("\n\nTest Case info:")
+    print(f" - Name: {test_cases[testcase_num].get_name()}")
+    print(f" - Starting Location: {test_cases[testcase_num].get_start_location()}")
+    print(f" - Delivery Locations: {test_cases[testcase_num].get_targets()}")
+
+    test_goal_state = State(test_cases[testcase_num].get_start_location(), [False, True, True])
+    print("\n\n problem info:")
+    print(f" - case: {problem.get_current_case()}")
+    print(f" - Starting State: {problem.get_initial_state()}")
+    print(f" - Delivery Locations: {problem.is_goal_state(test_goal_state)}")
+    inital_state = problem.get_initial_state()
+    print(f" - Delivery Locations: {problem.generate_children(inital_state)}")
+
+
+
+
 
     # TODO: Check the code for this function to understand how the test case class works
     #       Afterwards, modify or remove this line of code
-    for test_case in test_cases:
-        print("\n\nTest Case info:")
-        print(f" - Name: {test_case.get_name()}")
-        print(f" - Starting Location: {test_case.get_start_location()}")
-        print(f" - Delivery Locations: {test_case.get_targets()}")
-
-        # Create the problem
-        problem = Problem(map, test_case)
-
-        # use BFS ....
-        SearchAlgorithms.search(problem, SearchAlgorithms.BreadthFirstSearch)
-
-        # use UCS ....
-        SearchAlgorithms.search(problem, SearchAlgorithms.UniformCostSearch)
-
-        # use A* ....
-        SearchAlgorithms.search(problem, SearchAlgorithms.AStarSearch)
+    # for test_case in test_cases:
+    #     print("\n\nTest Case info:")
+    #     print(f" - Name: {test_case.get_name()}")
+    #     print(f" - Starting Location: {test_case.get_start_location()}")
+    #     print(f" - Delivery Locations: {test_case.get_targets()}")
+    #
+    #     # Create the problem
+    #     problem = Problem(map, test_case)
+    #
+    #     # use BFS ....
+    #     SearchAlgorithms.search(problem, SearchAlgorithms.BreadthFirstSearch)
+    #
+    #     # use UCS ....
+    #     SearchAlgorithms.search(problem, SearchAlgorithms.UniformCostSearch)
+    #
+    #     # use A* ....
+    #     SearchAlgorithms.search(problem, SearchAlgorithms.AStarSearch)
 
 
 if __name__ == "__main__":
