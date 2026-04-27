@@ -47,24 +47,7 @@ def main():
 
     # TODO: Check the code for this function to understand how the map class works
     #       Afterwards, modify  or remove this line of code
- # example_using_map_class(map)
-
-    testcase_num = 2
-    problem = Problem(map, test_cases[testcase_num])
-    print("\n\nTest Case info:")
-    print(f" - Name: {test_cases[testcase_num].get_name()}")
-    print(f" - Starting Location: {test_cases[testcase_num].get_start_location()}")
-    print(f" - Delivery Locations: {test_cases[testcase_num].get_targets()}")
-
-    test_goal_state = State(test_cases[testcase_num].get_start_location(), [False, True, True])
-    print("\n\n problem info:")
-    print(f" - case: {problem.get_current_case()}")
-    print(f" - Starting State: {problem.get_initial_state()}")
-    print(f" - Delivery Locations: {problem.is_goal_state(test_goal_state)}")
-    inital_state = problem.get_initial_state()
-    print(f" - Delivery Locations: {problem.generate_children(inital_state)}")
-
-
+   # example_using_map_class(map)
 
     # TODO: Check the code for this function to understand how the test case class works
     #       Afterwards, modify or remove this line of code
