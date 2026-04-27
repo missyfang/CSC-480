@@ -47,7 +47,7 @@ def main():
 
     # TODO: Check the code for this function to understand how the map class works
     #       Afterwards, modify  or remove this line of code
-   # example_using_map_class(map)
+ # example_using_map_class(map)
 
     testcase_num = 2
     problem = Problem(map, test_cases[testcase_num])
@@ -66,27 +66,25 @@ def main():
 
 
 
-
-
     # TODO: Check the code for this function to understand how the test case class works
     #       Afterwards, modify or remove this line of code
-    # for test_case in test_cases:
-    #     print("\n\nTest Case info:")
-    #     print(f" - Name: {test_case.get_name()}")
-    #     print(f" - Starting Location: {test_case.get_start_location()}")
-    #     print(f" - Delivery Locations: {test_case.get_targets()}")
-    #
-    #     # Create the problem
-    #     problem = Problem(map, test_case)
-    #
-    #     # use BFS ....
-    #     SearchAlgorithms.search(problem, SearchAlgorithms.BreadthFirstSearch)
-    #
-    #     # use UCS ....
-    #     SearchAlgorithms.search(problem, SearchAlgorithms.UniformCostSearch)
-    #
-    #     # use A* ....
-    #     SearchAlgorithms.search(problem, SearchAlgorithms.AStarSearch)
+    for test_case in test_cases:
+        print("\n\nTest Case info:")
+        print(f" - Name: {test_case.get_name()}")
+        print(f" - Starting Location: {test_case.get_start_location()}")
+        print(f" - Delivery Locations: {test_case.get_targets()}")
+
+        # Create the problem
+        problem = Problem(map, test_case)
+
+        # use BFS ....
+        SearchAlgorithms.search(problem, SearchAlgorithms.BreadthFirstSearch)
+
+        # use UCS ....
+        SearchAlgorithms.search(problem, SearchAlgorithms.UniformCostSearch)
+
+        # use A* ....
+        SearchAlgorithms.search(problem, SearchAlgorithms.AStarSearch)
 
 
 if __name__ == "__main__":
