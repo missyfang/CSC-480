@@ -1,8 +1,9 @@
 import multiprocessing
 import sys
-import math
 
-from tutorial import generate_random_policy, run_one_experiment
+
+from tutorial import generate_random_policy, run_one_experiment, display_policy
+from value_iteration import create_state
 
 # NOTE THAT THESE TRY EXCEPTS ARE ONLY ADDED SO THAT YOU KNOW
 # THAT YOU MUST INSTALL THESE LIBRARIES IF YOU DON'T ALREADY HAVE THEM
@@ -34,7 +35,7 @@ def part_one():
     number_states = env.observation_space.n
     number_actions =  env.action_space.n
 
-    #create 10 random policies
+    # create 10 random policies
     policies = []
     for i in range(10):
         policy = generate_random_policy(number_actions, number_states, seed=i)
@@ -42,43 +43,83 @@ def part_one():
 
     print("10 polices created")
 
-    # run policies in parallel
+    # run all policies in parallel
     with multiprocessing.Pool() as pool:
-        results = pool.map(run_policy, [(env, name, policy) for name, policy in policies])
+        policy_results= pool.map(run_policy_100, [(env, name, policy) for name, policy in policies])
 
-    print(results)
 
-    pass
+    max_mean_goals = policy_results[0]
+    for r in policy_results[1:]:
+        if r[1] > max_mean_goals[1]:
+            max_mean_goals = r
 
-def run_policy(arg):
-    env, name, policy = arg
-    num_episodes = 10000
+    policy_results.remove(max_mean_goals)
+
+    second_max_mean_goals = policy_results[0]
+    for r in policy_results[1:]:
+        if r[1] > second_max_mean_goals[1]:
+            second_max_mean_goals = r
+
+
+    print(f"Lowest: {max_mean_goals[0]} — mean goals : {max_mean_goals[1]}, mean steps : {max_mean_goals[2]}, goal std dev : {max_mean_goals[3]}")
+    print(f"2nd Lowest: {second_max_mean_goals[0]} — mean goals : {second_max_mean_goals[1]}, mean steps : {second_max_mean_goals[2]}, goal std dev : {second_max_mean_goals[3]}")
+
+pass
+
+
+# run a policy 100 times in parallel and get info
+def run_policy_100(args):
+    env, name, policy = args
+    all_results = []
+    for _ in range(100):
+        r = run_policy(env, policy)
+        all_results.append(r)
+
+    goals = []
+    steps = []
+
+    for res in all_results:
+        goals.append(res[0])
+        steps.append(res[1])
+
+    mean_goals = np.mean(goals)
+    mean_steps = np.mean(steps)
+    std_dev_goals = np.std(goals)
+
+    print("\n*** RESULTS ***:")
+    print(f"\tName: {name}")
+    print(f"\tMean Goals: {mean_goals}")
+    print(f"\tMean Steps: {mean_steps}")
+    print(f"\tstd dev Goals: {std_dev_goals}")
+    print(display_policy(policy, env.observation_space.n))
+    return name, mean_goals, mean_steps, std_dev_goals
+
+
+
+# run a single policy 10_000 times
+def run_policy(env, policy):
+    num_episodes = 10_000
 
     goals, holes, total_rewards, total_goal_steps = run_one_experiment(env, policy, num_episodes)
 
-    percent_goal = goals / num_episodes
-    percent_hole = holes / num_episodes
-    mean_reward = total_rewards / num_episodes
-    mean_goal_steps = 0.0 if (goals == 0) else (total_goal_steps / goals)
+    return goals, total_goal_steps
 
-    print("\n*** RESULTS ***:")
-    print(f"\tGoals: {goals:>5d}/{num_episodes} = {percent_goal:>7.3%}")
-    print(f"\tHoles: {holes:>5d}/{num_episodes} = {percent_hole:>7.3%}")
-    print(f"\tmean reward:          {mean_reward:.5f}")
-    print(f"\tmean goal steps:     {mean_goal_steps:.2f}")
-    return name, goals, holes, total_rewards, total_goal_steps
 
 
 def part_two():
-    # TODO: your code here ...
+    current_iteration_v_star_per_state = []
+    last_iteration_v_star_per_state = []
+    env = create_state()
     pass
 
 
 def main():
     # TODO: feel free to change this as required
     # TODO: also, check tutorial.py for some hints on how to implement your experiments
-    part_one()
+   # part_one()
     part_two()
+
+
 
 
 if __name__ == "__main__":
