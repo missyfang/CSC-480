@@ -30,6 +30,7 @@ def compute_q_star(action):
 
         # * T  = is terminal, True/False (done=True if the next state is a Hole or the Goal).
         is_terminal = possible_transition[3]
+
         # if it is terminal, no next reward
         if is_terminal:
             v_star_of_next_state = 0
@@ -66,10 +67,10 @@ def run_for_state(env, iteration_count):
         curr = frozen_lake.P[s]
         compute_v_star(curr, s)
 
-    # update v* values
+    # update last runs v* values to the ones just computed
     last_iteration_v_star_per_state = current_iteration_v_star_per_state[:]
 
-    # run x times, convergence prolly happened?
+    # run x times
     if iteration_count > num_iterations:
         return optimal_policy
 
@@ -77,11 +78,11 @@ def run_for_state(env, iteration_count):
     return run_for_state(env, iteration_count + 1)
 
 def run_found_policy(env, policy, nS):
-    # 2) display policy
+    # display policy
     print("\n")
     print("optimal policy")
     print(display_policy(np.array(policy), nS))
-    # 3) Running one experiment ...
+    # Running one experiment ...
     print("\nRunning one experiment with this random policy (5 runs with display)")
     num_episodes = 5
     display = True
@@ -112,12 +113,9 @@ def run_value_iteration(env):
     last_iteration_v_star_per_state = [0] * num_s
     optimal_policy = [0] * num_s
 
-    # run
+    # run alg
     run_for_state(env, 0)
 
     # after optimal policy found, run it and print stats
     run_found_policy(env, optimal_policy, num_s)
     return optimal_policy
-
-
-    pass
