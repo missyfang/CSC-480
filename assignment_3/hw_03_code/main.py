@@ -3,7 +3,7 @@ import sys
 
 
 from tutorial import generate_random_policy, run_one_experiment, display_policy
-from value_iteration import create_state
+from value_iteration import run_value_iteration
 
 # NOTE THAT THESE TRY EXCEPTS ARE ONLY ADDED SO THAT YOU KNOW
 # THAT YOU MUST INSTALL THESE LIBRARIES IF YOU DON'T ALREADY HAVE THEM
@@ -107,9 +107,8 @@ def run_policy(env, policy):
 
 
 def part_two():
-    current_iteration_v_star_per_state = []
-    last_iteration_v_star_per_state = []
-    env = create_state()
+    env = gym.make('FrozenLake-v1', desc=None, map_name="8x8", is_slippery=True, render_mode="ansi")
+    run_value_iteration(env)
     pass
 
 

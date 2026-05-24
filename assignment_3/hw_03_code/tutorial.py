@@ -193,7 +193,7 @@ def main():
     policy = generate_random_policy(4, nS, seed=2024)
     # 2) display policy
     print("\n")
-    print("Random policy")
+    print("optimal policy")
     print(display_policy(policy, nS))
     # 3) Running one experiment ...
     print("\nRunning one experiment with this random policy (5 runs with display)")
@@ -201,8 +201,8 @@ def main():
     display = True
     goals, holes, total_rewards, total_goal_steps = run_one_experiment(env, policy, num_episodes, display)
 
-    print("\nRunning one experiment with this random policy (1000 runs without display)")
-    num_episodes = 1000
+    print("\nRunning one experiment with this random policy (10000 runs without display)")
+    num_episodes = 10000
     display = False
     goals, holes, total_rewards, total_goal_steps = run_one_experiment(env, policy, num_episodes, display)
 
