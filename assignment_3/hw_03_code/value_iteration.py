@@ -77,6 +77,7 @@ def run_for_state(env, iteration_count):
 
     return run_for_state(env, iteration_count + 1)
 
+# run policy once
 def run_found_policy(env, policy, nS):
     # display policy
     print("\n")
@@ -104,6 +105,27 @@ def run_found_policy(env, policy, nS):
     print(f"\tmean reward:          {mean_reward:.5f}")
     print(f"\tmean goal steps:     {mean_goal_steps:.2f}")
 
+
+# run policy 1000 times and compute stats
+def run_policy(policy, env):
+    goals = []
+    steps = []
+    num_episodes = 10000
+    for _ in range(100):
+        goal, holes, total_rewards, total_goal_steps = run_one_experiment(env, policy, num_episodes)
+        goals.append(goal)
+        steps.append(total_goal_steps)
+
+    mean_goals = np.mean(goals)
+    mean_steps = np.mean(steps)
+    std_dev_goals = np.std(goals)
+
+    print("\n*** RESULTS FOR 100 RUNS***:")
+    print(f"\tMean Goals: {mean_goals}")
+    print(f"\tMean Steps: {mean_steps}")
+    print(f"\tstd dev Goals: {std_dev_goals}")
+
+
 def run_value_iteration(env):
     #assign global vars
     global current_iteration_v_star_per_state, last_iteration_v_star_per_state, optimal_policy
@@ -117,5 +139,6 @@ def run_value_iteration(env):
     run_for_state(env, 0)
 
     # after optimal policy found, run it and print stats
-    run_found_policy(env, optimal_policy, num_s)
+    # run_found_policy(env, optimal_policy, num_s)
+    run_policy(optimal_policy, env)
     return optimal_policy

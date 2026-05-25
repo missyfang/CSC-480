@@ -3,7 +3,6 @@ import sys
 
 
 from tutorial import generate_random_policy, run_one_experiment, display_policy
-from value_iteration import run_value_iteration
 
 # NOTE THAT THESE TRY EXCEPTS ARE ONLY ADDED SO THAT YOU KNOW
 # THAT YOU MUST INSTALL THESE LIBRARIES IF YOU DON'T ALREADY HAVE THEM
@@ -64,6 +63,7 @@ def part_one():
     print(f"Lowest: {max_mean_goals[0]} — mean goals : {max_mean_goals[1]}, mean steps : {max_mean_goals[2]}, goal std dev : {max_mean_goals[3]}")
     print(f"2nd Lowest: {second_max_mean_goals[0]} — mean goals : {second_max_mean_goals[1]}, mean steps : {second_max_mean_goals[2]}, goal std dev : {second_max_mean_goals[3]}")
 
+
 pass
 
 
@@ -102,19 +102,19 @@ def run_policy(env, policy):
 
     goals, holes, total_rewards, total_goal_steps = run_one_experiment(env, policy, num_episodes)
 
+
     return goals, total_goal_steps
 
 
 
 def part_two():
     env = gym.make('FrozenLake-v1', desc=None, map_name="8x8", is_slippery=True, render_mode="ansi")
+    from value_iteration import run_value_iteration
     run_value_iteration(env)
     pass
 
 
 def main():
-    # TODO: feel free to change this as required
-    # TODO: also, check tutorial.py for some hints on how to implement your experiments
    # part_one()
     part_two()
 
