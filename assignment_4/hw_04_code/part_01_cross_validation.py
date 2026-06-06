@@ -9,6 +9,8 @@
 """
 
 import sys
+import time
+
 import numpy as np
 import pickle
 
@@ -20,7 +22,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report
 
-from helper_classes import SubMetrics, Metrics
+from helper_classes import SubMetrics, Metrics, GlobalInputs, BothMetrics
 
 
 # =======================================================================
@@ -61,12 +63,14 @@ def custom_metric_print(metrics_dict):
 #
 #   Note that this is a modified of the dictionary returned by classification_report
 # =======================================================================================================
-def cross_validation(raw_x: np.ndarray, raw_y: np.ndarray, n_folds: int, classifier_name: str, hyper_params: Dict) -> Dict:
+def cross_validation(raw_x: np.ndarray, raw_y: np.ndarray, n_folds: int, classifier_name: str, hyper_params: Dict) -> BothMetrics:
     # DONE: 1) split the dataset ....
     x_y_chunk_pairs = split_dataset(raw_x, raw_y, n_folds)
     # TODO: 2) for each split ...
     total_training_metrics = []
     total_validation_metrics = []
+    total_train_time = 0.0
+    total_validate_time = 0.0
     for i, current_validation_chunk in enumerate(x_y_chunk_pairs):
         current_train_chunks = x_y_chunk_pairs[:i] + x_y_chunk_pairs[i + 1:]
 
@@ -87,36 +91,41 @@ def cross_validation(raw_x: np.ndarray, raw_y: np.ndarray, n_folds: int, classif
 
 
         #  2.3) train your classifier on the training split
+        start = time.time()
         current_trained_classifier = train_classifier(classifier_name, hyper_params, current_training_x, current_training_y)
+        total_train_time += time.time() - start
         #  2.4) evaluate your classifier on the training split (compute and print metrics)
         training_predictions = current_trained_classifier.predict(current_training_x)
 
         # 2.5) evaluate your classifier on the validationx split (compute and print metrics)
+        start = time.time()
         validation_predictions =  current_trained_classifier.predict(current_validation_x)
+        total_validate_time += time.time() - start
 
         #  2.6) collect your metrics
         current_training_metrics = classification_report(current_training_y, training_predictions, output_dict=True)
         total_training_metrics.append(current_training_metrics)
+        # add time it too for this train chunks to train
+
         current_validation_metrics = classification_report(current_validation_y, validation_predictions, output_dict=True)
         total_validation_metrics.append(current_validation_metrics)
+        # add time it too for this test chunk to validate
+
 
     # TODO: 3) compute the averaged metrics
     # 5.1) compute and print training metrics
-    training_final_metrics = total_metrics(total_training_metrics)
+    training_final_metrics = total_metrics(total_training_metrics, total_train_time)
 
     #  5.2) compute and print validation metrics
-    validation_final_metrics = total_metrics(total_validation_metrics)
+    validation_final_metrics = total_metrics(total_validation_metrics, total_validate_time)
 
-    results = {
-        "train": training_final_metrics.to_dict(),
-        "validation": validation_final_metrics.to_dict()
-    }
+    results = BothMetrics(training_final_metrics, validation_final_metrics)
 
-    print(json.dumps(results, indent=4))
+    print(json.dumps(results.to_dict(), indent=4))
     return results
 
 
-def total_metrics(metrics):
+def total_metrics(metrics, time_to_run):
 
     total_accuracy = 0
     java_metrics = SubMetrics()
@@ -152,21 +161,23 @@ def total_metrics(metrics):
         weighted_avg_metrics.support += metric['weighted avg']['support']
 
 
-    final_metrics = Metrics(java_metrics, python_metrics, total_accuracy, macro_avg_metrics, weighted_avg_metrics)
+    final_metrics = Metrics(java_metrics, python_metrics, total_accuracy, macro_avg_metrics, weighted_avg_metrics, time_to_run)
     final_metrics.average(len(metrics))
     return final_metrics
 
 
-def main():
-    # if len(sys.argv) < 4:
-    #     print("Usage:")
-    #     print(f"\tpython {sys.argv[0]} in_config in_raw_data n_folds")
-    #     return
 
-    in_config_filename =  "hyperparameters.json" # sys.argv[1]
-    in_raw_data_filename =  "testing_data.csv" #sys.argv[2]
+
+def main():
+    if len(sys.argv) < 4:
+        print("Usage:")
+        print(f"\tpython {sys.argv[0]} in_config in_raw_data n_folds")
+        return
+
+    in_config_filename =  sys.argv[1]
+    in_raw_data_filename =  sys.argv[2]
     try:
-        n_folds = 4 # int(sys.argv[3])
+        n_folds =  int(sys.argv[3])
         if n_folds < 2:
             print("Invalid value for n_folds. Must be an integer >= 2")
             return
@@ -181,7 +192,6 @@ def main():
     X, Y = load_raw_dataset(in_raw_data_filename)
 
     # DONE: 3) Run cross-validation
-    n_folds = 4
     result = cross_validation(X, Y, n_folds, classifier_name, class_config)
     # custom_metric_print(result)
     # FINISHED!

@@ -23,12 +23,13 @@ class SubMetrics:
         }
 
 class Metrics:
-    def __init__(self, java, python, accuracy, macro_avg, weighted_avg):
+    def __init__(self, java, python, accuracy, macro_avg, weighted_avg, time_to_run):
         self.java = java
         self.python = python
         self.accuracy = accuracy
         self.macro_avg = macro_avg
         self.weighted_avg = weighted_avg
+        self.time_to_run = time_to_run
 
 
     def average(self, n):
@@ -47,3 +48,17 @@ class Metrics:
             "weighted avg": self.weighted_avg.to_dict()
         }
 
+class BothMetrics:
+    def __init__(self, training, validation):
+        self.training = training
+        self.validation = validation
+
+    def to_dict(self):
+        return {
+        "training": self.training.to_dict(),
+        "validation": self.validation.to_dict()
+        }
+
+
+class GlobalInputs:
+    all_datasets = ["testing_data.csv", "training_data_small.csv", "training_data_large.csv", "training_data_very_large.csv"]

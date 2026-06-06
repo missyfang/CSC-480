@@ -247,7 +247,7 @@ def train_classifier(classifier_name: str, hyper_params: dict, train_split_X: np
     # DONE: 1) Create a new classifier
     classifier = None
     if classifier_name == "logistic_classifier":
-        classifier = LogisticRegression(penalty=hyper_params["logistic_classifier"]["penalty"], C=hyper_params["logistic_classifier"]["C"])
+        classifier = LogisticRegression(penalty=hyper_params["logistic_classifier"]["penalty"], C=hyper_params["logistic_classifier"]["C"],  solver="liblinear")
     if classifier_name == "decision_tree":
         classifier = DecisionTreeClassifier(max_depth=hyper_params["decision_tree"]["max_depth"], criterion=hyper_params["decision_tree"]["criterion"])
     if classifier_name == "random_forest":
