@@ -9,7 +9,10 @@
 """
 
 import json
+from enum import Enum
+
 import numpy as np
+import pandas as pd
 
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestClassifier
@@ -17,6 +20,10 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LogisticRegression
 
 from typing import List, Tuple, Dict
+
+class Language(Enum):
+    java = 0
+    python = 1
 
 
 # =========================================================================
@@ -62,10 +69,13 @@ def load_raw_dataset(dataset_filename: str) -> Tuple[np.ndarray, np.ndarray]:
     #       for basic built-in functions (no libraries required)
     #       however, feel free to implement this using the CSV or Pandas Library
 
-    # TODO: 1) load the raw data from file in CSV format
+    # DONE: 1) load the raw data from file in CSV format
     #         (input: filename, output: list of strings (one per line)  loaded from file)
 
-    # TODO: 2) convert the lines of text into a dataset using:
+    csv = pd.read_csv(dataset_filename)
+    csv.replace({"Yes": 1.0, "No": 0.0}, inplace=True)
+
+    # DONE: 2) convert the lines of text into a dataset using:
     #             a single list for Y
     #             a List of Lists for X
     #          every line in the file is a data row in the dataset
@@ -77,16 +87,29 @@ def load_raw_dataset(dataset_filename: str) -> Tuple[np.ndarray, np.ndarray]:
     #         (input: list of strings (one per line of original file)
     #         (outputs: a list of lists for X, a list for Y)
 
-    # TODO: 3) convert your lists for X and Y into numpy arrays
-    # (THIS IS AN EXAMPLE, YOU MUST CHANGE THIS
-    e1_x = [0, 0, 0]
-    e1_y = ["python"]
-    e2_x = [0, 0, 1]
-    e2_y = ["java"]
-    dataset_x = np.array([e1_x, e2_x])
-    dataset_y = np.array([e1_y, e2_y])
+    # list label value or class (y).
+    y = []
+    # list of lists the attribute values
+    x = []
+    last_col = csv.columns[-1]
+    for _, row in csv.iterrows():
+        # all cols except the last
+        list_all_floats = [float(a) for a in row[:-1]]
+        x.append(list(list_all_floats))
+        # just the last col
+        # CONVERT JAVA PYTHON to enums
+        label = row[last_col]
+        if label == "java":
+            y.append(Language.java.value)
+        elif label == "python":
+            y.append(Language.python.value)
 
-    # TODO: 4) return the numpy arrays as a tuple: (x, y)
+
+    # DONE: 3) convert your lists for X and Y into numpy arrays
+    dataset_x = np.array(x)
+    dataset_y = np.array(y)
+
+    # DONE: 4) return the numpy arrays as a tuple: (x, y)
     return dataset_x, dataset_y
 
 
@@ -108,13 +131,19 @@ def load_raw_dataset(dataset_filename: str) -> Tuple[np.ndarray, np.ndarray]:
 #    https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html
 # =========================================================================
 def apply_normalization(raw_dataset: np.ndarray, scaler: StandardScaler | None) -> Tuple[np.ndarray, StandardScaler | None]:
-    # TODO: 1) use or create standard scaler to normalize data
-    # CHANGE OR REMOVE THIS
-    invalid_dataset = np.zeros((10, 20))
-    invalid_scaler = None
+    # DONE: 1) use or create standard scaler to normalize data
 
-    # TODO: 2) return the normalized data AND the scaler
-    return invalid_dataset, invalid_scaler
+    transformed_data = []
+    if scaler is not None:
+        transformed_data = scaler.transform(raw_dataset)
+        return transformed_data, scaler
+
+    new_scaler = StandardScaler()
+    transformed_data = new_scaler.fit_transform(raw_dataset)
+
+
+    # DONE: 2) return the normalized data AND the scaler
+    return transformed_data, new_scaler
 
 
 # =========================================================================
@@ -145,21 +174,60 @@ def apply_normalization(raw_dataset: np.ndarray, scaler: StandardScaler | None) 
 #   as provided by the ndarray class of numpy
 # =========================================================================
 def split_dataset(dataset_X: np.ndarray, dataset_Y: np.ndarray, n: int) -> List[Tuple[np.ndarray, np.ndarray]]:
-    # TODO 1) create a copy of the dataset
 
-    # TODO 2) shuffle the copy of the dataset
-    # TODO:  2.1) create random order for all elements (Check: np.random.shuffle)
-    # TODO:  2.2) apply this random order to X
-    #  (Check: advanced indexing: https://numpy.org/doc/stable/user/basics.indexing.html)
-    # TODO:  2.3) apply this random order to Y
-    #  (Check: advanced indexing: https://numpy.org/doc/stable/user/basics.indexing.html)
+    # DONE 1) create a copy of the dataset
+    copy_x = dataset_X.copy()
+    copy_y = dataset_Y.copy()
 
-    # TODO: 3) compute partition sizes
+    # DONE 2) shuffle the copy of the dataset
+    # DONE:  2.1) create random order for all elements (Check: np.random.shuffle)
+    index_shuffle = list(range(len(copy_y)))
+    np.random.shuffle(index_shuffle)
 
-    # TODO: 4) compute the partitions using the SHUFFLED COPY
-    #          also, don't forget to split both x and y
+    shuffled_x = []
+    shuffled_y = []
+    for i in index_shuffle:
+        # DONE:  2.2) apply this random order to X
+        shuffled_x.append(copy_x[i])
+        # DONE:  2.3) apply this random order to Y
+        shuffled_y.append(copy_y[i])
 
-    # TODO: 5) return the partitions of the SHUFFLED COPY
+    # DONE: 3) compute partition sizes
+    x_chunks = []
+    y_chunks = []
+    chunk_size = len(shuffled_x) // n
+
+    # DONE: 4) compute the partitions using the SHUFFLED COPY also, don't forget to split both x and y
+    # no weird split
+    if len(shuffled_x) % n == 0:
+        begin = 0
+        for i in range(n):
+            end = begin + chunk_size
+            x_chunks.append(shuffled_x[begin:end])
+            y_chunks.append(shuffled_y[begin:end])
+            begin = end
+
+    #  weird split
+    else:
+        # this many rows need an extra 1
+        extra = len(shuffled_x) % n
+        begin = 0
+        for i in range(n):
+            end = begin + chunk_size
+            # first extra rows get additional 1
+            if extra < i:
+                end = begin + chunk_size + 1
+
+            x_chunks.append(shuffled_x[begin:end])
+            y_chunks.append(shuffled_y[begin:end])
+            begin = end
+
+
+
+    # DONE: 5) return the partitions of the SHUFFLED COPY
+    x_y_chunk_pairs = []
+    for i in range(len(x_chunks)):
+            x_y_chunk_pairs.append((x_chunks[i],y_chunks[i]))
     return []
 
 
@@ -176,10 +244,20 @@ def split_dataset(dataset_X: np.ndarray, dataset_Y: np.ndarray, n: int) -> List[
 #              classifier_name == "logistic_classifier" -> LogisticRegression
 # ==================================================================================
 def train_classifier(classifier_name: str, hyper_params: dict, train_split_X: np.ndarray, train_split_Y: np.ndarray):
-    # TODO: 1) Create a new classifier
-    # TODO: 2) Train this classifier with the given data
-    # TODO: 3) Return the trained classifier
-    return None
+    # DONE: 1) Create a new classifier
+    classifier = None
+    if classifier_name == "logistic_classifier":
+        classifier = LogisticRegression(penalty=hyper_params["penalty"], C=hyper_params["C"])
+    if classifier_name == "decision_tree":
+        classifier = DecisionTreeClassifier(max_depth=hyper_params["max_depth"], criterion=hyper_params["criterion"])
+    if classifier_name == "random_forest":
+        classifier = RandomForestClassifier(max_depth=hyper_params["max_depth"], n_estimators=hyper_params["n_trees"])
+
+    # DONE: 2) Train this classifier with the given data
+    classifier.fit(train_split_X, train_split_Y)
+
+    # DONE: 3) Return the trained classifier
+    return classifier
 
 
 

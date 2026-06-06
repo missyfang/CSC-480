@@ -115,7 +115,7 @@ def main():
     #     return
 
     in_config_filename =  "hyperparameters.json" # sys.argv[1]
-    # in_raw_data_filename = sys.argv[2]
+    in_raw_data_filename =  "testing_data.csv" #sys.argv[2]
     # try:
     #     n_folds = int(sys.argv[3])
     #     if n_folds < 2:
@@ -129,6 +129,8 @@ def main():
     (classifier_name, class_config) = load_hyperparameters(in_config_filename, "cross_validation" )
 
     # TODO: 2) Load your data
+    X, Y = load_raw_dataset(in_raw_data_filename)
+    normalized_x = apply_normalization(X, None)
 
     # TODO: 3) Run cross-validation
 
