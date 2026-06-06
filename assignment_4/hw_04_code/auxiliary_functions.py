@@ -228,7 +228,7 @@ def split_dataset(dataset_X: np.ndarray, dataset_Y: np.ndarray, n: int) -> List[
     x_y_chunk_pairs = []
     for i in range(len(x_chunks)):
             x_y_chunk_pairs.append((x_chunks[i],y_chunks[i]))
-    return []
+    return x_y_chunk_pairs
 
 
 # ==================================================================================
@@ -247,11 +247,11 @@ def train_classifier(classifier_name: str, hyper_params: dict, train_split_X: np
     # DONE: 1) Create a new classifier
     classifier = None
     if classifier_name == "logistic_classifier":
-        classifier = LogisticRegression(penalty=hyper_params["penalty"], C=hyper_params["C"])
+        classifier = LogisticRegression(penalty=hyper_params["logistic_classifier"]["penalty"], C=hyper_params["logistic_classifier"]["C"])
     if classifier_name == "decision_tree":
-        classifier = DecisionTreeClassifier(max_depth=hyper_params["max_depth"], criterion=hyper_params["criterion"])
+        classifier = DecisionTreeClassifier(max_depth=hyper_params["decision_tree"]["max_depth"], criterion=hyper_params["decision_tree"]["criterion"])
     if classifier_name == "random_forest":
-        classifier = RandomForestClassifier(max_depth=hyper_params["max_depth"], n_estimators=hyper_params["n_trees"])
+        classifier = RandomForestClassifier(max_depth=hyper_params["random_forest"]["max_depth"], n_estimators=hyper_params["random_forest"]["n_trees"])
 
     # DONE: 2) Train this classifier with the given data
     classifier.fit(train_split_X, train_split_Y)

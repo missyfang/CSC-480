@@ -20,6 +20,8 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report
 
+from helper_classes import SubMetrics, Metrics
+
 
 # =======================================================================
 #    This is an optional function that you can use to print your metrics
@@ -32,23 +34,7 @@ def custom_metric_print(metrics_dict):
 
 
 # =======================================================================================================
-#   This function runs cross-validation using the provided
-#     - raw dataset: a dataset which has not been normalized,
-#          represented by raw X and raw Y
-#     - n_folds:   number of data splits to use during the process
-#     - classifier_name: name of the classifier algorithm to use
-#     - hyperparameter: configuration for the classifier to use
-#
-#   Keep in mind that dataset normalization should be applied independently
-#   for each dataset split. That is, create the merged training set and
-#   then normalize this data, and then use the same normalization parameters
-#   to normalize the corresponding test split.
-#
-#   For the evaluation part, you should use classification_report from scikit-learn:
-#      https://scikit-learn.org/stable/modules/generated/sklearn.metrics.classification_report.html
-#
-#   The function runs the cross-validation step, computes the metrics per split, aggregates them and
-#   returns a dictionary with the aggregated metrics. This dictionary should follow this format:
+# wh
 #     {
 #         "train": sub_metrics_dict,
 #         "validation": sub_metrics_dict
@@ -76,37 +62,100 @@ def custom_metric_print(metrics_dict):
 #   Note that this is a modified of the dictionary returned by classification_report
 # =======================================================================================================
 def cross_validation(raw_x: np.ndarray, raw_y: np.ndarray, n_folds: int, classifier_name: str, hyper_params: Dict) -> Dict:
-    # TODO: 1) split the dataset ....
-
+    # DONE: 1) split the dataset ....
+    x_y_chunk_pairs = split_dataset(raw_x, raw_y, n_folds)
     # TODO: 2) for each split ...
-    #         2.1) prepare the split training dataset (concatenate and normalize)
-    #         2.2) prepare the split validation dataset (normalize)
-    #         2.3) train your classifier on the training split
-    #         2.4) evaluate your classifier on the training split (compute and print metrics)
-    #         2.5) evaluate your classifier on the validation split (compute and print metrics)
-    #         2.6) collect your metrics
+    total_training_metrics = []
+    total_validation_metrics = []
+    for i, current_validation_chunk in enumerate(x_y_chunk_pairs):
+        current_train_chunks = x_y_chunk_pairs[:i] + x_y_chunk_pairs[i + 1:]
+
+        concatenate_x = []
+        concatenate_y = []
+        # 2.1) prepare the split training dataset (concatenate and normalize)
+        for current_test_chunk in current_train_chunks:
+            # put training chunks together
+            concatenate_x.append(current_test_chunk[0])
+            concatenate_y.append(current_test_chunk[1])
+
+        current_training_y = np.concatenate(concatenate_y)
+        current_training_x, training_scaler = apply_normalization(np.concatenate(concatenate_x), None)
+
+        #  2.2) prepare the split validation dataset (normalize)
+        current_validation_y = current_validation_chunk[1]
+        current_validation_x, validation_scaler = apply_normalization(current_validation_chunk[0], None)
+
+
+        #  2.3) train your classifier on the training split
+        current_trained_classifier = train_classifier(classifier_name, hyper_params, current_training_x, current_training_y)
+        #  2.4) evaluate your classifier on the training split (compute and print metrics)
+        training_predictions = current_trained_classifier.predict(current_training_x)
+
+        # 2.5) evaluate your classifier on the validationx split (compute and print metrics)
+        validation_predictions =  current_trained_classifier.predict(current_validation_x)
+
+        #  2.6) collect your metrics
+        current_training_metrics = classification_report(current_training_y, training_predictions, output_dict=True)
+        total_training_metrics.append(current_training_metrics)
+        current_validation_metrics = classification_report(current_validation_y, validation_predictions, output_dict=True)
+        total_validation_metrics.append(current_validation_metrics)
 
     # TODO: 3) compute the averaged metrics
-    #          5.1) compute and print training metrics
-    #          5.2) compute and print validation metrics
-    final_metrics = {
-        "train": {
-           "java": {"precision": None, "recall": None, "f1-score": None, "support": None},
-           "python": {"precision": None, "recall": None, "f1-score": None, "support": None},
-           "accuracy": None,
-           "macro avg": {"precision": None, "recall": None, "f1-score": None, "support": None},
-           "weighted avg": {"precision": None, "recall": None, "f1-score": None, "support": None}
-        },
-        "validation": {
-            "java": {"precision": None, "recall": None, "f1-score": None, "support": None},
-            "python": {"precision": None, "recall": None, "f1-score": None, "support": None},
-            "accuracy": None,
-            "macro avg": {"precision": None, "recall": None, "f1-score": None, "support": None},
-            "weighted avg": {"precision": None, "recall": None, "f1-score": None, "support": None}
-        }
+    # 5.1) compute and print training metrics
+    training_final_metrics = total_metrics(total_training_metrics)
+
+    #  5.2) compute and print validation metrics
+    validation_final_metrics = total_metrics(total_validation_metrics)
+
+    results = {
+        "train": training_final_metrics.to_dict(),
+        "validation": validation_final_metrics.to_dict()
     }
-    # TODO: 4) return your metrics
+
+    print(json.dumps(results, indent=4))
+    return results
+
+
+def total_metrics(metrics):
+
+    total_accuracy = 0
+    java_metrics = SubMetrics()
+    python_metrics = SubMetrics()
+    macro_avg_metrics = SubMetrics()
+    weighted_avg_metrics = SubMetrics()
+
+    for metric in metrics:
+        # java
+        java_metrics.precision += metric['0']['precision']
+        java_metrics.recall += metric['0']['recall']
+        java_metrics.f1 += metric['0']['f1-score']
+        java_metrics.support += metric['0']['support']
+
+        # python
+        python_metrics.precision += metric['1']['precision']
+        python_metrics.recall += metric['1']['recall']
+        python_metrics.f1 += metric['1']['f1-score']
+        python_metrics.support += metric['1']['support']
+
+        total_accuracy += metric['accuracy']
+
+        # macro_avg
+        macro_avg_metrics.precision += metric['macro avg']['precision']
+        macro_avg_metrics.recall += metric['macro avg']['recall']
+        macro_avg_metrics.f1 += metric['macro avg']['f1-score']
+        macro_avg_metrics.support += metric['macro avg']['support']
+
+       # weighted_avg
+        weighted_avg_metrics.precision += metric['weighted avg']['precision']
+        weighted_avg_metrics.recall += metric['weighted avg']['recall']
+        weighted_avg_metrics.f1 += metric['weighted avg']['f1-score']
+        weighted_avg_metrics.support += metric['weighted avg']['support']
+
+
+    final_metrics = Metrics(java_metrics, python_metrics, total_accuracy, macro_avg_metrics, weighted_avg_metrics)
+    final_metrics.average(len(metrics))
     return final_metrics
+
 
 def main():
     # if len(sys.argv) < 4:
@@ -116,24 +165,25 @@ def main():
 
     in_config_filename =  "hyperparameters.json" # sys.argv[1]
     in_raw_data_filename =  "testing_data.csv" #sys.argv[2]
-    # try:
-    #     n_folds = int(sys.argv[3])
-    #     if n_folds < 2:
-    #         print("Invalid value for n_folds. Must be an integer >= 2")
-    #         return
-    # except:
-    #     print("invalid value for n_folds. Must be an integer >= 2")
-    #     return
+    try:
+        n_folds = 4 # int(sys.argv[3])
+        if n_folds < 2:
+            print("Invalid value for n_folds. Must be an integer >= 2")
+            return
+    except:
+        print("invalid value for n_folds. Must be an integer >= 2")
+        return
 
-    # TODO: 1) Load your (cross-validation) hyper-parameters
+    # DONE: 1) Load your (cross-validation) hyper-parameters
     (classifier_name, class_config) = load_hyperparameters(in_config_filename, "cross_validation" )
 
-    # TODO: 2) Load your data
+    # DONE: 2) Load your data
     X, Y = load_raw_dataset(in_raw_data_filename)
-    normalized_x = apply_normalization(X, None)
 
-    # TODO: 3) Run cross-validation
-
+    # DONE: 3) Run cross-validation
+    n_folds = 4
+    result = cross_validation(X, Y, n_folds, classifier_name, class_config)
+    # custom_metric_print(result)
     # FINISHED!
 
 
