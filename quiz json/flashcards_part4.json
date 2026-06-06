@@ -1,0 +1,81 @@
+{
+  "title": "Adversarial Search",
+  "part": 4,
+  "cards": [
+    {
+      "id": 1,
+      "question": "Why is Alpha-beta pruning important in minimax?",
+      "answer": "It reduces the effective branching factor of the minimax tree, allowing the algorithm to evaluate deeper trees without extra computational cost."
+    },
+    {
+      "id": 2,
+      "question": "When using alpha-beta pruning, do all evaluated nodes have identical utility values to those without pruning?",
+      "answer": "False. When a branch is pruned, the current node may return a different value than it normally would. However, this does not affect the utility value at the root node."
+    },
+    {
+      "id": 3,
+      "question": "How can you control the 'difficulty' of an AI opponent that uses minimax in turn-based games like chess?",
+      "answer": "By using different values to limit the depth of the tree. The deeper the tree, the better the agent becomes and the harder it is for the human to win."
+    },
+    {
+      "id": 4,
+      "question": "What is the effect of limiting the maximum depth of a minimax tree?",
+      "answer": "It significantly reduces computational costs, but we can no longer guarantee that the agent will play optimally."
+    },
+    {
+      "id": 5,
+      "question": "What is required to use chance nodes in expectimax?",
+      "answer": "We need to be able to compute the expected value for the corresponding random variable."
+    },
+    {
+      "id": 6,
+      "question": "What is the difference between a 'goal state' in regular search and a 'terminal state' in adversarial search?",
+      "answer": "A goal state means the agent has reached a target and a solution has been found. A terminal state means the game is over — it can mean winning, losing, or a tie."
+    },
+    {
+      "id": 7,
+      "question": "Why are games important to the AI research community?",
+      "answer": "They provide a great testing ground for algorithms that need to make many rational choices, just like many real-life applications require."
+    },
+    {
+      "id": 8,
+      "question": "Does the fact that one player is winning imply another is losing?",
+      "answer": "True only if it is a zero-sum game."
+    },
+    {
+      "id": 9,
+      "question": "A Pokémon-style RPG battle game has random move success rates and competitive players. How would you classify this game?",
+      "answer": "Stochastic, competitive, turn-based."
+    },
+    {
+      "id": 10,
+      "question": "How would you classify the game of chess (fixed pieces, full information, no randomness, one player wins)?",
+      "answer": "Deterministic, observable, zero-sum, turn-based."
+    },
+    {
+      "id": 11,
+      "question": "How would you classify the game of Uno (random card draws, hidden hands, punishment cards)?",
+      "answer": "Stochastic, partially observable, turn-based (except when calling UNO on other players)."
+    },
+    {
+      "id": 12,
+      "question": "What is the effect of having an AI minimax player randomly pick one of the top K best moves instead of always picking the best?",
+      "answer": "It lowers the difficulty of the player and makes its behavior more unpredictable, potentially making it more entertaining for the human player."
+    },
+    {
+      "id": 13,
+      "question": "In a minimax tree, what does the MAX node represent?",
+      "answer": "The maximizing player's turn — it selects the child node with the highest utility value."
+    },
+    {
+      "id": 14,
+      "question": "In a minimax tree, what does the MIN node represent?",
+      "answer": "The minimizing player's turn — it selects the child node with the lowest utility value."
+    },
+    {
+      "id": 15,
+      "question": "What does Alpha-beta pruning do to branches that cannot affect the final result?",
+      "answer": "It prunes (cuts) them, skipping their evaluation entirely to save computation time without changing the value at the root node."
+    }
+  ]
+}

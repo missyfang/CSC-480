@@ -1,0 +1,96 @@
+{
+  "title": "Logical Agents",
+  "part": 5,
+  "cards": [
+    {
+      "id": 1,
+      "question": "What is the role of logic in AI?",
+      "answer": "Logic is a form of knowledge representation. It allows us to represent facts about a given problem, and then find solutions using well-defined inference rules to go from what we know to what we need to know."
+    },
+    {
+      "id": 2,
+      "question": "Given S = (Q → R) ∧ (P ∧ R), what can we say about S?",
+      "answer": "S is satisfiable but not valid — there exist interpretations that make it true, but it is not true under all interpretations."
+    },
+    {
+      "id": 3,
+      "question": "Given S = (P ∧ Q) ∧ (¬P ∧ R), what can we say about S?",
+      "answer": "S is neither satisfiable nor valid — it is a contradiction and cannot be true under any interpretation."
+    },
+    {
+      "id": 4,
+      "question": "In propositional logic, if P = 'an electric car has a fully charged battery' and Q → R means 'electric car with charged battery starts without issues', can we conclude that 'someone's car starts without issues'?",
+      "answer": "No. We would need to know if 'someone's car' is electric before we can apply the implication."
+    },
+    {
+      "id": 5,
+      "question": "In propositional logic, what is the truth value of a conditional statement 'If P then Q' when P is false?",
+      "answer": "The statement is always true (vacuously true) regardless of Q, because a false antecedent makes the whole implication true."
+    },
+    {
+      "id": 6,
+      "question": "Consider: 'If you have traveled back in time, then the professor will waive your final.' Since traveling back in time is impossible (false), what is the truth value of this statement?",
+      "answer": "It is true — a conditional with a false antecedent is vacuously true."
+    },
+    {
+      "id": 7,
+      "question": "Consider: 'If at most 20 people enroll, then 22 people will pass.' If more than 20 people enroll, what is the truth value?",
+      "answer": "It is false — the antecedent is false in a way that contradicts reality (22 cannot pass if fewer enroll than pass), making this statement false."
+    },
+    {
+      "id": 8,
+      "question": "In First-Order Logic, how do you write 'A pizza is a dish'?",
+      "answer": "Pizza(x) ⇒ Dish(x) — being a pizza implies being a dish."
+    },
+    {
+      "id": 9,
+      "question": "In First-Order Logic, how do you write 'If the dish is a pizza then it has cheese on it'?",
+      "answer": "Dish(x) ∧ Pizza(x) ⇒ has_cheese(x)"
+    },
+    {
+      "id": 10,
+      "question": "Interpret in plain English: ∀x person(x) => ∃y Song(y) ∧ loves(x,y)",
+      "answer": "Every person has at least one song they love."
+    },
+    {
+      "id": 11,
+      "question": "Interpret in plain English: ∀y Song(y) => ∃x person(x) ∧ ¬loves(x,y)",
+      "answer": "No matter how great a song is, there will always be at least one person who does not like it."
+    },
+    {
+      "id": 12,
+      "question": "Interpret in plain English: ∃y ∀x Song(y) ∧ person(x) => (¬loves(x,y) ∨ (x=John))",
+      "answer": "There is a terrible song that nobody likes except John."
+    },
+    {
+      "id": 13,
+      "question": "In First-Order Logic, how do you write 'There is a super cheap pizza that comes with two different toppings'?",
+      "answer": "∃x ∃y ∃z [Pizza(x) ∧ ¬Equal(y,z) ∧ Topping(x,y) ∧ Topping(x,z) ∧ Cheap(x)]"
+    },
+    {
+      "id": 14,
+      "question": "In First-Order Logic, how do you write 'Every tasty pizza with two or more toppings must have at least two compatible toppings'?",
+      "answer": "∀x ∃y ∃z [Pizza(x) ∧ Topping(x,y) ∧ Topping(x,z) ∧ ¬(y=z) ∧ Tasty(x) ⇒ Compatible(y,z)]"
+    },
+    {
+      "id": 15,
+      "question": "What is the difference between a satisfiable sentence and a valid sentence in propositional logic?",
+      "answer": "A satisfiable sentence is true under at least one interpretation. A valid sentence (tautology) is true under all possible interpretations."
+    },
+    {
+      "id": 16,
+      "question": "In First-Order Logic, what is the difference between ∀ (for all) and ∃ (there exists)?",
+      "answer": "∀ means the statement holds for every element in the domain. ∃ means there is at least one element in the domain for which the statement holds."
+    },
+    {
+      "id": 17,
+      "question": "In First-Order Logic, how do you write 'Each team has a combination of playable and non-playable characters'?",
+      "answer": "∀x Character(x) ∧ PlayChar(x) ⇒ ∃y [Character(y) ∧ ¬PlayChar(y) ∧ SameTeam(x,y)]"
+    },
+    {
+      "id": 18,
+      "question": "In First-Order Logic, how do you efficiently express 'only C1 and C3 can fight' among all characters?",
+      "answer": "∀x [Character(x) ∧ (¬CanFight(x) ∨ equals(x,C1) ∨ equals(x,C3))]"
+    }
+  ]
+}

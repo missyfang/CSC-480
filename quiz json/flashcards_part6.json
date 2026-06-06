@@ -1,0 +1,71 @@
+{
+  "title": "Probabilistic Reasoning",
+  "part": 6,
+  "cards": [
+    {
+      "id": 1,
+      "question": "Given random variables A (3 outcomes), B (4 outcomes), C (4 outcomes), how many entries are in the full joint probability table?",
+      "answer": "48 entries — you multiply the number of outcomes: 3 × 4 × 4 = 48."
+    },
+    {
+      "id": 2,
+      "question": "Given random variables A (3 outcomes), B (4 outcomes), C (4 outcomes), how many entries are in the conditional probability tables of the corresponding Bayesian Network?",
+      "answer": "Cannot be determined unless the dependencies between variables are specified — the Bayesian Network structure determines the table sizes."
+    },
+    {
+      "id": 3,
+      "question": "What is the size of a full joint probability distribution for a 2-color, 6-sided die (where color and roll value are the two variables)?",
+      "answer": "12 entries — 2 colors × 6 possible values = 12 combinations."
+    },
+    {
+      "id": 4,
+      "question": "You pick a fair red die (out of 7 red, 3 green in a bag) and roll it. What is the probability of rolling a value ≥ 4?",
+      "answer": "1/2 — a fair 6-sided die has 3 values ≥ 4 (4, 5, 6) out of 6, so the probability is 3/6 = 1/2. The color is irrelevant since the die is fair."
+    },
+    {
+      "id": 5,
+      "question": "Given the joint probability table for John eating pizza and being in a good mood: P(Pizza, Good Mood)=0.5, P(Pizza, ¬Good Mood)=0.2, P(¬Pizza, Good Mood)=0.1, P(¬Pizza, ¬Good Mood)=0.2 — what is P(¬Pizza, ¬Good Mood)?",
+      "answer": "20% — the entry P(¬Pizza ∧ ¬Good Mood) = 0.2."
+    },
+    {
+      "id": 6,
+      "question": "Using the same joint table (P(Pizza, Good Mood)=0.5, P(Pizza, ¬Good Mood)=0.2, P(¬Pizza, Good Mood)=0.1, P(¬Pizza, ¬Good Mood)=0.2), what is P(Good Mood | Pizza)?",
+      "answer": "5/7 — P(Pizza) = 0.5 + 0.2 = 0.7; P(Good Mood ∧ Pizza) = 0.5; so P(Good Mood | Pizza) = 0.5 / 0.7 = 5/7."
+    },
+    {
+      "id": 7,
+      "question": "What is the main motivation for using Bayesian Networks?",
+      "answer": "They allow the creation of a computationally manageable representation of complex joint probability distributions."
+    },
+    {
+      "id": 8,
+      "question": "What should a rational agent do when it lacks the knowledge needed to make accurate predictions?",
+      "answer": "The agent should make assumptions about unknown facts based on probabilities, then act under those assumptions — because the agent must act even when information is incomplete."
+    },
+    {
+      "id": 9,
+      "question": "What is non-monotonic reasoning?",
+      "answer": "Reasoning where the agent can drop previously held beliefs when new observations contradict them — the knowledge base does not only grow, it can shrink as assumptions are revised."
+    },
+    {
+      "id": 10,
+      "question": "What is the difference between monotonic and non-monotonic reasoning?",
+      "answer": "In monotonic reasoning, new information only adds to the knowledge base — conclusions never get retracted. In non-monotonic reasoning, new observations can contradict and remove prior assumptions."
+    },
+    {
+      "id": 11,
+      "question": "What strategy should a robotic mechanic agent use to find and fix problems in a machine?",
+      "answer": "The agent should know the equipment component by component, start by assuming nothing is wrong, then observe anomalies. Those anomalies contradict the assumption that certain components work correctly, letting the agent identify and fix them."
+    },
+    {
+      "id": 12,
+      "question": "What is a full joint probability distribution?",
+      "answer": "A table listing the probability of every possible combination of values across all random variables in the model."
+    },
+    {
+      "id": 13,
+      "question": "How does a Bayesian Network reduce the complexity of representing a joint probability distribution?",
+      "answer": "By encoding conditional dependencies between variables, it allows each variable to be represented with a smaller conditional probability table rather than requiring one massive joint table."
+    }
+  ]
+}

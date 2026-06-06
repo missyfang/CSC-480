@@ -1,0 +1,96 @@
+{
+  "title": "Markov Decision Processes",
+  "part": 7,
+  "cards": [
+    {
+      "id": 1,
+      "question": "What is the Markov Property?",
+      "answer": "At any given point in time, the best action the agent can take only depends on the current state and the actions available in that state. Previous states and actions are irrelevant for this specific decision."
+    },
+    {
+      "id": 2,
+      "question": "Is it always a good idea to create agents that only pay attention to the current state (Markov assumption)?",
+      "answer": "No — not everything in real life can be assumed to be a Markov process. Applying the Markov assumption blindly can lead to poor decisions when history actually matters."
+    },
+    {
+      "id": 3,
+      "question": "Does using an optimal policy guarantee the agent collects the maximum possible reward after k steps?",
+      "answer": "No. The transition function may lead to multiple possible outcomes, not all good. The optimal policy only guarantees that the average utility across many runs will be maximized."
+    },
+    {
+      "id": 4,
+      "question": "Why should an agent prefer to collect rewards sooner rather than later?",
+      "answer": "All of these reasons: rewards available now may not be available later; collecting early rewards may enable more rewards later; and the agent does not know how many steps remain."
+    },
+    {
+      "id": 5,
+      "question": "Why are the Bellman equations recursive?",
+      "answer": "They are designed to identify the optimal action in a potentially infinite sequence of actions. The recursive structure represents this never-ending sequence of decisions."
+    },
+    {
+      "id": 6,
+      "question": "What does the optimal Q-value formula represent? Q*(s,a) = ...",
+      "answer": "It defines the value of an optimal Q-state as the sum of the expected current reward and the expected discounted future rewards, assuming future decisions will also be optimal."
+    },
+    {
+      "id": 7,
+      "question": "What does the argmax formula over actions in Q represent?",
+      "answer": "It identifies the action that leads to the optimal Q-state — i.e., the best action to take from a given state."
+    },
+    {
+      "id": 8,
+      "question": "Why does the reward function in MDPs take three arguments: current state (s), action (a), and new state (s')?",
+      "answer": "Rewards are associated with edges in the Expectimax tree — taking a specific action from a given state to reach another specific state. The same action from the same state can lead to different states with different rewards, so all three are needed."
+    },
+    {
+      "id": 9,
+      "question": "How can an agent handle an MDP with no time limit (potentially infinite steps)?",
+      "answer": "The agent recursively considers future rewards but applies discounting to limit the effect of long-term rewards on short-term decisions, then picks the best action based on this discounted value."
+    },
+    {
+      "id": 10,
+      "question": "Is Expectimax search a good way to solve MDPs?",
+      "answer": "Not really. While it can identify the best action, it leads to many redundant calculations and the tree may be infinite. A cutoff forces less-than-ideal behavior."
+    },
+    {
+      "id": 11,
+      "question": "Is Value Iteration a good way to solve MDPs?",
+      "answer": "Mostly yes. It computes the equivalent of multiple Expectimax trees bottom-up and uses discounted rewards to facilitate convergence — though it may be slower to converge than other alternatives."
+    },
+    {
+      "id": 12,
+      "question": "Can a random policy directly estimate the optimal values for all states?",
+      "answer": "No. After policy evaluation, you get values for every state, but these are unlikely to be optimal since the policy itself is random."
+    },
+    {
+      "id": 13,
+      "question": "What algorithms can be used to solve MDPs?",
+      "answer": "Value Iteration, Policy Iteration, and Expectimax Search can all be used to solve MDPs."
+    },
+    {
+      "id": 14,
+      "question": "Can a search problem solvable by A* also be solved using MDPs and policies?",
+      "answer": "It depends on the state space size. Policies assume a finite state space, while A* can handle infinite spaces. If the state space is limited, MDPs work but may be less efficient — wasting memory on zero-probability transitions."
+    },
+    {
+      "id": 15,
+      "question": "How can you define a utility function?",
+      "answer": "All of these: it assigns scores/values to each state; it is used to make trade-offs between conflicting goals; and it is the agent's internalization of the performance measure."
+    },
+    {
+      "id": 16,
+      "question": "Can goal-based agents use utility?",
+      "answer": "False — goal-based agents do rely on some form of utility (e.g. costs they minimize). However, they cannot easily handle complex trade-offs from contradictory goals the way utility-based agents can."
+    },
+    {
+      "id": 17,
+      "question": "Why do goal-based agents avoid revisiting states while utility-based agents can revisit them?",
+      "answer": "For goal-based agents, revisiting a state creates a pointless cycle that only increases cost. For utility-based agents, revisiting states can sometimes increase accumulated rewards (e.g. scoring points repeatedly in a game)."
+    },
+    {
+      "id": 18,
+      "question": "When should you use Minimax Search vs. Policy Iteration vs. A* for an agent in a challenging environment?",
+      "answer": "Use Minimax when there are adversarial agents actively trying to block you. Use Policy Iteration when actions have stochastic outcomes and the agent is alone. Use A* when outcomes are deterministic and there are no adversaries."
+    }
+  ]
+}

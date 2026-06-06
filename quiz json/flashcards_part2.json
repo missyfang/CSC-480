@@ -1,0 +1,106 @@
+{
+  "title": "Intelligent Agents and Search for Planning",
+  "part": 2,
+  "cards": [
+    {
+      "id": 1,
+      "question": "How can you tell that your agent is dealing with an Episodic task environment?",
+      "answer": "Each decision is independent, and actions do not affect future decisions or states."
+    },
+    {
+      "id": 2,
+      "question": "How can you tell that your agent's environment is compatible with algorithms that only work on Known environments?",
+      "answer": "The agent has access to a complete and accurate model of how the environment behaves."
+    },
+    {
+      "id": 3,
+      "question": "How can you tell that your agent's environment is Unknown (incompatible with algorithms that require known environments)?",
+      "answer": "The agent does not have prior knowledge of how actions affect the environment and must learn or infer this through interaction."
+    },
+    {
+      "id": 4,
+      "question": "What does it mean for an intelligent agent to 'do the right thing' in practice?",
+      "answer": "It is about the consequences of the actions the agent performs. We say it does the right thing if the consequences over the state of the environment are consistent with what we want."
+    },
+    {
+      "id": 5,
+      "question": "How can you tell if a task environment is Stochastic?",
+      "answer": "The same action can lead to different possible outcomes, each with some probability."
+    },
+    {
+      "id": 6,
+      "question": "What makes a model-based reflex agent smarter than a simple reflex agent?",
+      "answer": "The model of the environment allows the agent to create more complex rules that can also consider past inputs, resulting in better handling of partially observable environments — while still being mostly reactive."
+    },
+    {
+      "id": 7,
+      "question": "What is the point of goal formulation in search?",
+      "answer": "Agents need to set and pursue goals to be autonomous. Once a goal is completed, they can move onto the next goal, create a plan to reach it, and then execute the plan."
+    },
+    {
+      "id": 8,
+      "question": "Can the State Space contain cycles? True or False?",
+      "answer": "False. State spaces are directed graphs and can easily have cycles."
+    },
+    {
+      "id": 9,
+      "question": "In a maze navigation problem where rotations cost 25% more battery than moving, how is the Action Cost function defined?",
+      "answer": "Cost(action) = 125% if action is Rotate -90 or Rotate +90, else 100% for Move Forward or Move Backward."
+    },
+    {
+      "id": 10,
+      "question": "In the implementation of a search algorithm, which classes/functions are generic and will not change with the application?",
+      "answer": "Search Tree Node and Search Algorithms — these are application-independent and reusable."
+    },
+    {
+      "id": 11,
+      "question": "What does the frontier represent in a search?",
+      "answer": "All the possible futures that have been reached but are yet to be explored."
+    },
+    {
+      "id": 12,
+      "question": "Why must task environments be observable to use search algorithms?",
+      "answer": "The solution is a plan made of a sequence of actions. To create the plan, the agent needs to know the state of the environment in detail, which requires full observability."
+    },
+    {
+      "id": 13,
+      "question": "Why must task environments be discrete to use search algorithms?",
+      "answer": "A discrete environment can be simulated using discrete time steps, allowing the agent to create plans by selecting a sequence of actions from a limited collection of possibilities."
+    },
+    {
+      "id": 14,
+      "question": "Why must task environments be deterministic to use search algorithms?",
+      "answer": "A deterministic environment means the agent can trust that performing the same action over the same state will always lead to the same outcome, allowing it to reliably predict resulting states."
+    },
+    {
+      "id": 15,
+      "question": "How can you tell that an agent is in a Dynamic environment?",
+      "answer": "The environment can change over time, even while the agent is making decisions."
+    },
+    {
+      "id": 16,
+      "question": "What makes a utility-based agent better than a goal-based agent?",
+      "answer": "A goal-based agent may struggle with multiple conflicting goals. A utility-based agent can prioritize actions that maximize overall utility, handling conflicts between goals more effectively."
+    },
+    {
+      "id": 17,
+      "question": "In optimization, what does 'what you ask is what you get' mean?",
+      "answer": "We need to design performance metrics carefully. Agents will do everything allowed to optimize the metric, which can lead to undesirable and hard-to-predict behavior."
+    },
+    {
+      "id": 18,
+      "question": "What is the task environment for an intelligent tutoring agent that evaluates student knowledge and suggests study materials?",
+      "answer": "Partially Observable, Sequential, Discrete."
+    },
+    {
+      "id": 19,
+      "question": "How can you tell that your agent is dealing with a Sequential task environment?",
+      "answer": "The agent's current decisions affect future states and future decisions."
+    },
+    {
+      "id": 20,
+      "question": "How can you tell if an environment is deterministic (compatible with A* search)?",
+      "answer": "Each action taken by the agent leads to exactly one predictable outcome."
+    }
+  ]
+}

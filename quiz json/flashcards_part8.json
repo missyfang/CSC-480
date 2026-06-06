@@ -1,0 +1,96 @@
+{
+  "title": "Machine Learning: Introduction",
+  "part": 8,
+  "cards": [
+    {
+      "id": 1,
+      "question": "What is the relationship between AI, Machine Learning, and Deep Learning?",
+      "answer": "Machine Learning is a broad subset of AI. Deep Learning is an important subset of Machine Learning that uses layered, hierarchical learning — neural networks are a natural way to implement it."
+    },
+    {
+      "id": 2,
+      "question": "What is the relationship between Deep Learning and Neural Networks?",
+      "answer": "Deep Learning refers to ML methods that use layered, hierarchical learning. Neural networks are a natural practical implementation of Deep Learning — not the other way around."
+    },
+    {
+      "id": 3,
+      "question": "What is the relationship between Machine Learning and Neural Networks?",
+      "answer": "Neural Networks are one out of many algorithms available for Machine Learning — they are not a replacement for ML as a whole."
+    },
+    {
+      "id": 4,
+      "question": "What is a classification problem in ML?",
+      "answer": "A problem where the output is a discrete category or label — e.g. determining if a video makes a copyright infringement (yes/no), or identifying if a keyword was spoken in audio."
+    },
+    {
+      "id": 5,
+      "question": "What is a regression problem in ML?",
+      "answer": "A problem where the output is a continuous numerical value — e.g. predicting the number of views a video will get in its first week, or estimating the age of a speaker from audio."
+    },
+    {
+      "id": 6,
+      "question": "What is a clustering problem in ML?",
+      "answer": "A problem where the goal is to group similar items together without predefined labels — e.g. grouping students who failed on similar exam questions to suggest tailored practice materials."
+    },
+    {
+      "id": 7,
+      "question": "A program analyzes a lecture video clip and outputs whether it is likely to appear on the final exam. Is this classification or regression?",
+      "answer": "Classification — the output is a discrete label (relevant / not relevant), not a continuous number."
+    },
+    {
+      "id": 8,
+      "question": "What is Supervised Learning?",
+      "answer": "Learning from labeled data where each example has an input and a known correct output — e.g. training a license plate recognition model using annotated images of plates."
+    },
+    {
+      "id": 9,
+      "question": "What is Unsupervised Learning?",
+      "answer": "Learning that finds patterns or structure in data without labels — e.g. grouping songs by recurring lyric themes, or distributing artists across festival shows based on shared fan overlap."
+    },
+    {
+      "id": 10,
+      "question": "What is Reinforcement Learning?",
+      "answer": "Learning where an agent improves behavior by receiving scores/rewards from its environment — e.g. training a bipedal robot by scoring it on total distance walked in a simulation."
+    },
+    {
+      "id": 11,
+      "question": "What is Self-supervised Learning?",
+      "answer": "A form of learning where the labels are automatically generated from the data itself — e.g. pretraining a network to predict randomly removed words from messages, without human annotation."
+    },
+    {
+      "id": 12,
+      "question": "What is an advantage of creating your own annotated dataset?",
+      "answer": "You can use data sampled from your exact final application. If done correctly, there should be no significant difference between your training data and your target data after deployment."
+    },
+    {
+      "id": 13,
+      "question": "What is a disadvantage of creating your own annotated dataset?",
+      "answer": "It is an expensive and time-consuming process prone to errors. You need safeguards to guarantee the quality of the data collected."
+    },
+    {
+      "id": 14,
+      "question": "Why is data normalization needed?",
+      "answer": "All of these: many ML models are sensitive to the range of attribute values; it can make learned parameters more explainable; and it allows comparing values that cannot otherwise be compared directly."
+    },
+    {
+      "id": 15,
+      "question": "Why is label encoding needed?",
+      "answer": "All of these: many ML models can only work with numerical inputs; many can only produce numerical outputs; and encoding allows the model to process categorical data mathematically."
+    },
+    {
+      "id": 16,
+      "question": "Is it a good strategy to merge train/validation/test splits and re-split using cross-validation?",
+      "answer": "Most likely no. The original splits may be disjoint in subtle domain-specific ways. Randomly re-splitting can destroy this property and lead to poor generalization estimates."
+    },
+    {
+      "id": 17,
+      "question": "A music service wants to create 25 playlists per user based on recurring themes in liked songs' lyrics. What type of learning fits best?",
+      "answer": "Unsupervised Learning — the goal is to discover recurring thematic clusters in lyrics without predefined labels."
+    },
+    {
+      "id": 18,
+      "question": "A team trains a gesture recognition model using labeled recordings of people drawing specific gestures. What type of learning is this?",
+      "answer": "Supervised Learning — each gesture recording is paired with a known label indicating which gesture was drawn."
+    }
+  ]
+}

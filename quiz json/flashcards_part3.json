@@ -1,0 +1,106 @@
+{
+  "title": "Search Algorithms",
+  "part": 3,
+  "cards": [
+    {
+      "id": 1,
+      "question": "If a search algorithm guarantees completeness, does it also guarantee optimality?",
+      "answer": "No. These two properties are independent of each other."
+    },
+    {
+      "id": 2,
+      "question": "If a search algorithm guarantees optimality, does it also guarantee completeness?",
+      "answer": "No. These two properties are independent of each other."
+    },
+    {
+      "id": 3,
+      "question": "Which search algorithms use a priority queue to implement the frontier?",
+      "answer": "Uniform-cost Search, Greedy Best-first Search, and A* Search — all of them use a priority queue."
+    },
+    {
+      "id": 4,
+      "question": "Which search algorithm uses a FIFO queue to implement the frontier?",
+      "answer": "Breadth-first Search."
+    },
+    {
+      "id": 5,
+      "question": "Which search algorithm uses a LIFO queue to implement the frontier?",
+      "answer": "Depth-first Search."
+    },
+    {
+      "id": 6,
+      "question": "What does it mean for an A* heuristic to be 'optimistic' (admissible)?",
+      "answer": "It means the heuristic should prefer underestimating the real cost of each possible future — it should never overestimate the actual cost of reaching the goal."
+    },
+    {
+      "id": 7,
+      "question": "What happens in A* when the heuristic is not admissible?",
+      "answer": "It will lead to sub-optimal solutions."
+    },
+    {
+      "id": 8,
+      "question": "What happens in A* when the heuristic is not consistent?",
+      "answer": "It may lead to an increase in repeated states in the frontier, which increases the computational cost of the algorithm."
+    },
+    {
+      "id": 9,
+      "question": "What is the worst-case time complexity of search algorithms?",
+      "answer": "Exponential."
+    },
+    {
+      "id": 10,
+      "question": "What are 'Reached Nodes' in a search process?",
+      "answer": "Nodes that have been discovered by the search process."
+    },
+    {
+      "id": 11,
+      "question": "What are 'Expanded Nodes' in a search process?",
+      "answer": "Nodes that have been discovered and whose children have already been added to the frontier."
+    },
+    {
+      "id": 12,
+      "question": "Why can't Uniform-cost Search be used when there are negative costs in the graph?",
+      "answer": "Because the algorithm might overestimate the cost of certain paths — it cannot predict that the cost ahead is negative."
+    },
+    {
+      "id": 13,
+      "question": "Can Breadth-first Search be used when there are negative costs in the graph?",
+      "answer": "Yes. Negative costs make no difference to Breadth-first Search."
+    },
+    {
+      "id": 14,
+      "question": "Using A* with a null heuristic is equivalent to which algorithm?",
+      "answer": "Uniform-cost Search."
+    },
+    {
+      "id": 15,
+      "question": "When should you use uninformed search strategies in practice?",
+      "answer": "As baselines — they are slower but easier to implement correctly than informed search strategies."
+    },
+    {
+      "id": 16,
+      "question": "What is Informed Search?",
+      "answer": "Search that uses additional information (e.g. from past experience or a heuristic) to evaluate which moves are most promising, rather than systematically exploring all possibilities."
+    },
+    {
+      "id": 17,
+      "question": "What is Uninformed Search?",
+      "answer": "Search that systematically considers all possible combinations of actions with no additional information about the cost or promise of each action."
+    },
+    {
+      "id": 18,
+      "question": "Can a self-driving car use A* for high-level route planning (e.g. Chicago's loop to a location 10 miles away)?",
+      "answer": "Yes. A* can be used for high-level route planning. The car then needs to handle the low-level execution details separately."
+    },
+    {
+      "id": 19,
+      "question": "Can a self-driving car use A* to plan every action for driving 5 blocks during rush hour?",
+      "answer": "No. Driving is a complex real-time task. A* only handles discrete sets of actions and is not suited for environments that are both dynamic and partially observable."
+    },
+    {
+      "id": 20,
+      "question": "Why can't bidirectional search always be used in practice?",
+      "answer": "It can only be used when we can estimate all states that can be predecessors of a given state, and the actions needed on each of those states to reach the given state."
+    }
+  ]
+}

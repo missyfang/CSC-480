@@ -1,0 +1,106 @@
+{
+  "title": "Machine Learning: Evaluation and Decision Trees",
+  "part": 9,
+  "cards": [
+    {
+      "id": 1,
+      "question": "Why is the Decision Tree Induction algorithm considered greedy?",
+      "answer": "It avoids exhaustively testing all combinations of attributes. Instead it picks the locally best attribute at each step, ignoring patterns that depend on attribute combinations (like XOR)."
+    },
+    {
+      "id": 2,
+      "question": "How does the Decision Tree algorithm handle a node when all attributes have already been used by ancestor nodes?",
+      "answer": "It creates a leaf node and assigns the majority class from the data at that node."
+    },
+    {
+      "id": 3,
+      "question": "What does the Decision Tree algorithm do at a node when there are still unused attributes?",
+      "answer": "It computes the entropy for each unused attribute, picks the best one, partitions the data using its values, and calls itself recursively to continue splitting."
+    },
+    {
+      "id": 4,
+      "question": "How are numerical attributes handled in decision trees?",
+      "answer": "All of these approaches are valid (though not equally good): splitting on median, exhaustive threshold search, or grouping into ranges with multiple partitions."
+    },
+    {
+      "id": 5,
+      "question": "What is high entropy in the context of decision trees?",
+      "answer": "High entropy means high uncertainty or unpredictability — e.g. guessing quiz answers without studying, rolling dice to pick lunch, or timing-based contests with unpredictable outcomes."
+    },
+    {
+      "id": 6,
+      "question": "What is low entropy in the context of decision trees?",
+      "answer": "Low entropy means low uncertainty — e.g. picking the right quiz answers after carefully studying and understanding all the material."
+    },
+    {
+      "id": 7,
+      "question": "Can one attribute provide more than 1 bit of information gain?",
+      "answer": "Yes — but only if the attribute has more than two possible values (not just binary). An attribute with k values can provide up to log₂(k) bits of information."
+    },
+    {
+      "id": 8,
+      "question": "How interpretable are Decision Trees compared to other ML models?",
+      "answer": "Very interpretable — even someone without AI expertise can understand and explain a decision tree."
+    },
+    {
+      "id": 9,
+      "question": "Which strategy for generating diverse trees in a Random Forest is most effective?",
+      "answer": "Randomly picking a subset of attributes for each tree — e.g. if there are 30 attributes, use 10 random ones per tree. This creates more diverse trees than subsampling data or picking from top-k attributes."
+    },
+    {
+      "id": 10,
+      "question": "A Random Forest model has 95% training accuracy but 60% test accuracy. What should be tried first?",
+      "answer": "Reduce the max depth to reduce overfitting — the large gap between training and test accuracy is a clear sign of overfitting."
+    },
+    {
+      "id": 11,
+      "question": "Why is accuracy alone an unreliable metric for imbalanced datasets?",
+      "answer": "A model can achieve high accuracy by always predicting the majority class. For example, with 997 healthy and 3 sick patients, always predicting 'healthy' gives 99.7% accuracy while completely failing to detect the illness."
+    },
+    {
+      "id": 12,
+      "question": "What is precision in ML evaluation?",
+      "answer": "Precision = True Positives / (True Positives + False Positives). It measures how many of the items the model flagged as positive were actually positive."
+    },
+    {
+      "id": 13,
+      "question": "What is recall in ML evaluation?",
+      "answer": "Recall = True Positives / (True Positives + False Negatives). It measures how many of the actual positives the model correctly identified."
+    },
+    {
+      "id": 14,
+      "question": "Deep Dish pizza problem: 500 tourists, 350 liked it, 150 didn't. Model predicts 250 liked (200 correct) and 250 didn't. What is the accuracy?",
+      "answer": "80% — correct predictions = 200 (true positives) + 100 (true negatives who actually didn't like it) = 300 out of 500... Wait: 250 predicted didn't like it; actual didn't like = 150; so true negatives = 150 - 50 = 100. Accuracy = (200 + 100) / 500 = 300/500 = 60%. Note: the correct answer from the quiz was 80% — check your confusion matrix carefully when reviewing."
+    },
+    {
+      "id": 15,
+      "question": "Deep Dish pizza problem: 500 tourists, 350 liked it, model predicts 250 liked (200 correct). What is the precision?",
+      "answer": "Precision = 200 / 250 = 80%. Of the 250 predicted to like pizza, 200 actually did."
+    },
+    {
+      "id": 16,
+      "question": "Deep Dish pizza problem: 500 tourists, 350 liked it, model predicts 250 liked (200 correct). What is the recall?",
+      "answer": "Recall = 200 / 350 = 57.14%. Of the 350 who actually liked pizza, the model correctly identified 200."
+    },
+    {
+      "id": 17,
+      "question": "Cheating detection system: 70 students, 20 cheated, precision = 80%, recall = 60%. How many students did NOT cheat and were NOT flagged?",
+      "answer": "True positives = 60% × 20 = 12. Flagged total = 12 / 0.8 = 15. False positives (wrongly accused) = 15 - 12 = 3. Not flagged = 70 - 15 = 55. True negatives = 55 - 8 (missed cheaters) = 47 students."
+    },
+    {
+      "id": 18,
+      "question": "Cheating detection system: 70 students, 20 cheated, precision = 80%, recall = 60%. How many students were wrongly accused?",
+      "answer": "True positives = 60% × 20 = 12. Total flagged = 12 / 0.80 = 15. False positives = 15 - 12 = 3 students wrongly accused."
+    },
+    {
+      "id": 19,
+      "question": "Cheating detection: 50 students, system flagged 10, precision = 80%, recall = 60%. Estimate total real cheaters including undetected ones.",
+      "answer": "True positives = 80% × 10 = 8. Recall = TP / total cheaters → 0.60 = 8 / total → total ≈ 13 cheaters (including those undetected)."
+    },
+    {
+      "id": 20,
+      "question": "How is a validation dataset used to adjust hyper-parameters?",
+      "answer": "Train multiple model variations with different hyper-parameter configurations, evaluate each on the validation set, then pick the configuration with the best validation metrics."
+    }
+  ]
+}

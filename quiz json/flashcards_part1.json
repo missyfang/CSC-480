@@ -1,0 +1,56 @@
+{
+  "title": "Introduction to Artificial Intelligence",
+  "part": 1,
+  "cards": [
+    {
+      "id": 1,
+      "question": "What is a disadvantage of the 'acting rationally' approach to AI?",
+      "answer": "Machines are not really thinking — they simply behave as if they were thinking."
+    },
+    {
+      "id": 2,
+      "question": "What made artificial intelligence bloom into the popular field it is today?",
+      "answer": "Its gradual adoption of the scientific method, increased reliance on well-known theory from other fields, and small improvements achieved on solving specific but useful automation tasks."
+    },
+    {
+      "id": 3,
+      "question": "What is an advantage of the 'thinking rationally' approach to AI?",
+      "answer": "It is based on strict laws of 'correct thinking', which should allow us to find the right solution for problems where all facts are known with complete certainty."
+    },
+    {
+      "id": 4,
+      "question": "What is a disadvantage of the 'thinking humanly' approach to AI?",
+      "answer": "We do not fully understand how the human brain works, so it is currently too hard to reproduce its functionality using a machine."
+    },
+    {
+      "id": 5,
+      "question": "What are the three key characteristics rational agents should display?",
+      "answer": "The ability to modify their behavior as a response to how the environment evolves, the ability to act independently on their own, and the ability to set objectives which they will try to complete."
+    },
+    {
+      "id": 6,
+      "question": "What is a disadvantage of the 'acting humanly' approach to AI?",
+      "answer": "Humans are not always the most rational creatures — our behavior can be sub-optimal in many scenarios that require intelligence."
+    },
+    {
+      "id": 7,
+      "question": "How old is the field of artificial intelligence?",
+      "answer": "More than 70 years old. People were proposing the first models for artificial neurons and mathematical models for thinking machines around and before World War 2."
+    },
+    {
+      "id": 8,
+      "question": "What is an advantage of the 'acting rationally' approach to AI?",
+      "answer": "This approach is quite generic, capable of overcoming most limitations of other approaches."
+    },
+    {
+      "id": 9,
+      "question": "What is intelligence?",
+      "answer": "It generally refers to the capacity of creating, reasoning, learning, and solving complex problems."
+    },
+    {
+      "id": 10,
+      "question": "What is an advantage of the 'acting humanly' approach to AI?",
+      "answer": "Humans are the most intelligent living creatures we are aware of, so it makes perfect sense to try to imitate how intelligent humans behave."
+    }
+  ]
+}
